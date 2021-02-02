@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов» [![Build status][travis-image]][travis-url]
 
-* Студент: [Alexandra Kovalchuk](https://up.htmlacademy.ru/react/6/user/1305465).
-* Наставник: `Неизвестно`.
+- Студент: [Alexandra Kovalchuk](https://up.htmlacademy.ru/react/6/user/1305465).
+- Наставник: [Фёдор Громов](https://up.htmlacademy.ru/react/6/user/338401).
 
 ---
 
