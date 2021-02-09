@@ -7,29 +7,27 @@ import NotFoundPage from "../page404/page404.jsx";
 import PropTypes from "prop-types";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
-const App = ({adCount}) => {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/" exact>
-          <MainPage adCount={adCount} />
-        </Route>
-        <Route path="/login" exact>
-          <LoginPage />
-        </Route>
-        <Route path="/favorites" exact>
-          <FavoritesPage />
-        </Route>
-        <Route path="/offer/:id" exact>
-          <OfferPage />
-        </Route>
-        <Route>
-          <NotFoundPage />
-        </Route>
-      </Switch>
-    </BrowserRouter>
-  );
-};
+const App = ({adCount}) => (
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" exact>
+        <MainPage adCount={adCount} />
+      </Route>
+      <Route path="/login" exact>
+        <LoginPage />
+      </Route>
+      <Route path="/favorites" exact>
+        <FavoritesPage />
+      </Route>
+      <Route path="/offer/:id" exact>
+        <OfferPage />
+      </Route>
+      <Route>
+        <NotFoundPage />
+      </Route>
+    </Switch>
+  </BrowserRouter>
+);
 
 App.propTypes = {
   adCount: PropTypes.number.isRequired
