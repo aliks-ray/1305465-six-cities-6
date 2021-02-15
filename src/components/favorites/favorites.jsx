@@ -7,7 +7,7 @@ import FavoriteCard from "../favorite-card/favorite-card.jsx";
 const FavoritesPage = ({offers}) => {
   const favoritesOffers = offers
     .filter((offer) => offer.isFavorite === true)
-    .reduce(function (result, item) {
+    .reduce((result, item) => {
       result[item.city] = [...(result[item.city] || []), item];
       return result;
     }, {});
