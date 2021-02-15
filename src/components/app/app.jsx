@@ -6,7 +6,7 @@ import OfferPage from "../offer/offer.jsx";
 import NotFoundPage from "../page404/page404.jsx";
 import PropTypes from "prop-types";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import {OFFERS} from "../../mocks/offers";
+import {OFFERS} from "../../mocks/offers.js";
 
 const App = ({adCount}) => (
   <BrowserRouter>
@@ -18,7 +18,7 @@ const App = ({adCount}) => (
         <LoginPage />
       </Route>
       <Route path="/favorites" exact>
-        <FavoritesPage />
+        <FavoritesPage offers={OFFERS} />
       </Route>
       <Route path="/offer/:id" exact>
         <OfferPage />

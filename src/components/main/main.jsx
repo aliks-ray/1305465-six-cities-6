@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../header/header.jsx";
-import Card from "../card/card.jsx";
+import OffersList from "../cards-list/cards-list.jsx";
 import PropTypes from "prop-types";
 
 const MainPage = ({adCount, offers}) => (
@@ -78,9 +78,7 @@ const MainPage = ({adCount, offers}) => (
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              {offers.map((offer) => (
-                <Card key={offer.id} offer={offer} />
-              ))}
+              <OffersList offers={offers} />
             </div>
           </section>
           <div className="cities__right-section">

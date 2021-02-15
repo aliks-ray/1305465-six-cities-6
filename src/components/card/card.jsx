@@ -1,18 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {setRating} from "../../utils/utils.js";
+import {Link} from "react-router-dom";
 
-const Card = ({offer}) => {
+const Card = ({offer, setPlaceCard}) => {
   const isPremium = () => {
     if (offer.isPremium) {
       <div className="place-card__mark">
         <span>Premium</span>
       </div>;
     }
-  };
-
-  const setRating = () => {
-    const STAR_WIDTH = 20;
-    return Math.round(offer.rating) * STAR_WIDTH + `%`;
   };
 
   const isFavorite = () => {
@@ -24,7 +21,10 @@ const Card = ({offer}) => {
   };
 
   return (
-    <article className="cities__place-card place-card">
+    <article
+      className="cities__place-card place-card"
+      onMouseOver={() => setPlaceCard(offer)}
+    >
       {isPremium()}
       <div className="place-card__mark">
         <span>Premium</span>
@@ -55,12 +55,12 @@ const Card = ({offer}) => {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: setRating()}}></span>
+            <span style={{width: setRating(offer)}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{offer.title}</a>
+          <Link to="/offer/id">{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
@@ -77,8 +77,10 @@ Card.propTypes = {
     rating: PropTypes.number.isRequired,
     previewImage: PropTypes.string.isRequired,
     isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired
-  })
+    isPremium: PropTypes.bool.isRequired,
+    city: PropTypes.string.isRequired
+  }),
+  setPlaceCard: PropTypes.func.isRequired
 };
 
 export default Card;

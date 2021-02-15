@@ -7,7 +7,8 @@ export const OFFERS = [
     rating: 4.5,
     previewImage: `./img/room.jpg`,
     isFavorite: false,
-    isPremium: false
+    isPremium: false,
+    city: `Cologne`
   },
   {
     id: 2,
@@ -17,7 +18,8 @@ export const OFFERS = [
     rating: 4.8,
     previewImage: `./img/apartment-01.jpg`,
     isFavorite: true,
-    isPremium: false
+    isPremium: false,
+    city: `Amsterdam`
   },
   {
     id: 3,
@@ -26,8 +28,9 @@ export const OFFERS = [
     price: 132,
     rating: 4.8,
     previewImage: `./img/apartment-02.jpg`,
-    isFavorite: false,
-    isPremium: true
+    isFavorite: true,
+    isPremium: true,
+    city: `Amsterdam`
   },
   {
     id: 4,
@@ -37,6 +40,7 @@ export const OFFERS = [
     rating: 4.8,
     previewImage: `./img/apartment-03.jpg`,
     isFavorite: true,
-    isPremium: true
+    isPremium: true,
+    city: `Cologne`
   }
 ];
