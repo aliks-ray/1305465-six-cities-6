@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 export const OFFERS = [
   {
     id: 1,
@@ -15,7 +17,7 @@ export const OFFERS = [
     title: `Beautiful & luxurious studio at great location`,
     type: `apartment`,
     price: 120,
-    rating: 4.8,
+    rating: 3.0,
     previewImage: `./img/apartment-01.jpg`,
     isFavorite: true,
     isPremium: false,
@@ -37,10 +39,22 @@ export const OFFERS = [
     title: `Nice, cozy, warm big bed apartment`,
     type: `apartment`,
     price: 180,
-    rating: 4.8,
+    rating: 3.5,
     previewImage: `./img/apartment-03.jpg`,
     isFavorite: true,
     isPremium: true,
     city: `Cologne`
   }
 ];
+
+export const propTypesOffer = {
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  rating: PropTypes.number.isRequired,
+  previewImage: PropTypes.string.isRequired,
+  isFavorite: PropTypes.bool.isRequired,
+  isPremium: PropTypes.bool.isRequired,
+  city: PropTypes.string.isRequired
+};

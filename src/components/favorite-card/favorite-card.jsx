@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {setRating} from "../../utils/utils.js";
 import {Link} from "react-router-dom";
+import {propTypesOffer} from "../../mocks/offers";
 
 const FavoriteCard = ({offer}) => (
   <article className="favorites__card place-card">
@@ -34,7 +35,7 @@ const FavoriteCard = ({offer}) => (
       </div>
       <div className="place-card__rating rating">
         <div className="place-card__stars rating__stars">
-          <span style={{width: setRating(offer)}}></span>
+          <span style={{width: setRating(offer.rating)}}></span>
           <span className="visually-hidden">Rating</span>
         </div>
       </div>
@@ -47,16 +48,7 @@ const FavoriteCard = ({offer}) => (
 );
 
 FavoriteCard.propTypes = {
-  offer: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    rating: PropTypes.number.isRequired,
-    previewImage: PropTypes.string.isRequired,
-    isFavorite: PropTypes.bool.isRequired,
-    isPremium: PropTypes.bool.isRequired
-  })
+  offer: PropTypes.shape(propTypesOffer).isRequired
 };
 
 export default FavoriteCard;

@@ -3,10 +3,11 @@ import Header from "../header/header.jsx";
 import Footer from "../footer/footer.jsx";
 import PropTypes from "prop-types";
 import FavoriteCard from "../favorite-card/favorite-card.jsx";
+import {propTypesOffer} from "../../mocks/offers";
 
 const FavoritesPage = ({offers}) => {
   const favoritesOffers = offers
-    .filter((offer) => offer.isFavorite === true)
+    .filter((offer) => offer.isFavorite)
     .reduce((result, item) => {
       result[item.city] = [...(result[item.city] || []), item];
       return result;
@@ -30,12 +31,11 @@ const FavoritesPage = ({offers}) => {
                   </div>
                   <div className="favorites__places">
                     {Object.values(favoritesOffers).map((city) =>
-                      city.map((offer) =>
-                        offer.city === cityKey ? (
-                          <FavoriteCard key={offer.id} offer={offer} />
-                        ) : (
-                          ``
-                        )
+                      city.map(
+                          (offer) =>
+                            offer.city === cityKey && (
+                              <FavoriteCard key={offer.id} offer={offer} />
+                            )
                       )
                     )}
                   </div>
@@ -51,19 +51,8 @@ const FavoritesPage = ({offers}) => {
 };
 
 FavoritesPage.propTypes = {
-  offers: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        rating: PropTypes.number.isRequired,
-        previewImage: PropTypes.string.isRequired,
-        isFavorite: PropTypes.bool.isRequired,
-        isPremium: PropTypes.bool.isRequired,
-        city: PropTypes.string.isRequired
-      })
-  )
+  offers: PropTypes.arrayOf(PropTypes.shape(propTypesOffer).isRequired)
+    .isRequired
 };
 
 export default FavoritesPage;
