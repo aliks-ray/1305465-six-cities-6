@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
 import PlaceCard from "../card/card";
-import {propTypesOffer} from "../../mocks/offers";
+import {offerType} from "../../prop-types/prop-types.js";
 
 const OffersList = ({offers}) => {
   const [placeCardId, setPlaceCardId] = useState(0);
@@ -21,8 +21,7 @@ const OffersList = ({offers}) => {
 };
 
 OffersList.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(propTypesOffer).isRequired)
-    .isRequired
+  offers: PropTypes.arrayOf(offerType).isRequired
 };
 
 export default OffersList;

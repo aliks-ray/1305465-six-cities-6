@@ -3,15 +3,17 @@ import Header from "../header/header.jsx";
 import Footer from "../footer/footer.jsx";
 import PropTypes from "prop-types";
 import FavoriteCard from "../favorite-card/favorite-card.jsx";
-import {propTypesOffer} from "../../mocks/offers";
+import {offerType} from "../../prop-types/prop-types.js";
 
 const FavoritesPage = ({offers}) => {
-  const favoritesOffers = offers
-    .filter((offer) => offer.isFavorite)
-    .reduce((result, item) => {
-      result[item.city] = [...(result[item.city] || []), item];
-      return result;
-    }, {});
+  const isFavorite = (offer) => offer.isFavorite;
+  const groupGyCity = (result, item) => {
+    result[item.city] = [...(result[item.city] || []), item];
+    return result;
+  };
+
+  const favoritesOffers = offers.filter(isFavorite).reduce(groupGyCity, {});
+
   return (
     <div className="page">
       <Header />
@@ -51,8 +53,7 @@ const FavoritesPage = ({offers}) => {
 };
 
 FavoritesPage.propTypes = {
-  offers: PropTypes.arrayOf(PropTypes.shape(propTypesOffer).isRequired)
-    .isRequired
+  offers: PropTypes.arrayOf(offerType).isRequired
 };
 
 export default FavoritesPage;
