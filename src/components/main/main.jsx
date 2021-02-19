@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "../header/header.jsx";
-import Card from "../card/card.jsx";
+import OffersList from "../cards-list/cards-list.jsx";
 import PropTypes from "prop-types";
 
-const MainPage = ({adCount}) => (
+const MainPage = ({adCount, offers}) => (
   <div className="page page--gray page--main">
     <Header />
     <main className="page__main page__main--index">
@@ -78,12 +78,7 @@ const MainPage = ({adCount}) => (
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              {Array(adCount)
-                .fill()
-                .slice(0, 5)
-                .map((item) => (
-                  <Card key={item} />
-                ))}
+              <OffersList offers={offers} />
             </div>
           </section>
           <div className="cities__right-section">
@@ -96,7 +91,19 @@ const MainPage = ({adCount}) => (
 );
 
 MainPage.propTypes = {
-  adCount: PropTypes.number.isRequired
+  adCount: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        rating: PropTypes.number.isRequired,
+        previewImage: PropTypes.string.isRequired,
+        isFavorite: PropTypes.bool.isRequired,
+        isPremium: PropTypes.bool.isRequired
+      })
+  )
 };
 
 export default MainPage;
