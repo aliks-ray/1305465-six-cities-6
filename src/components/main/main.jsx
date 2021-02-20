@@ -2,6 +2,14 @@ import React from "react";
 import Header from "../header/header.jsx";
 import OffersList from "../cards-list/cards-list.jsx";
 import PropTypes from "prop-types";
+import {offerType} from "../../prop-types/prop-types.js";
+import Map from "../map/map.jsx";
+
+const baseCoords = {
+  zoom: 12,
+  lat: 52.38333,
+  lng: 4.9
+};
 
 const MainPage = ({adCount, offers}) => (
   <div className="page page--gray page--main">
@@ -82,7 +90,9 @@ const MainPage = ({adCount, offers}) => (
             </div>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map" />
+            <section className="cities__map map">
+              <Map baseCoords={baseCoords} offers={offers} />
+            </section>
           </div>
         </div>
       </div>
@@ -92,18 +102,7 @@ const MainPage = ({adCount, offers}) => (
 
 MainPage.propTypes = {
   adCount: PropTypes.number.isRequired,
-  offers: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        rating: PropTypes.number.isRequired,
-        previewImage: PropTypes.string.isRequired,
-        isFavorite: PropTypes.bool.isRequired,
-        isPremium: PropTypes.bool.isRequired
-      })
-  )
+  offers: PropTypes.arrayOf(offerType).isRequired
 };
 
 export default MainPage;

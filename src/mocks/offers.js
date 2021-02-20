@@ -8,7 +8,9 @@ export const OFFERS = [
     previewImage: `./img/room.jpg`,
     isFavorite: false,
     isPremium: false,
-    city: `Cologne`
+    city: `Amsterdam`,
+    lat: 52.3909553943508,
+    lng: 4.85309666406198
   },
   {
     id: 2,
@@ -19,7 +21,9 @@ export const OFFERS = [
     previewImage: `./img/apartment-01.jpg`,
     isFavorite: true,
     isPremium: false,
-    city: `Amsterdam`
+    city: `Amsterdam`,
+    lat: 52.369553943508,
+    lng: 4.85309666406198
   },
   {
     id: 3,
@@ -30,7 +34,9 @@ export const OFFERS = [
     previewImage: `./img/apartment-02.jpg`,
     isFavorite: true,
     isPremium: true,
-    city: `Amsterdam`
+    city: `Amsterdam`,
+    lat: 52.3909553943508,
+    lng: 4.929309666406198
   },
   {
     id: 4,
@@ -41,6 +47,8 @@ export const OFFERS = [
     previewImage: `./img/apartment-03.jpg`,
     isFavorite: true,
     isPremium: true,
-    city: `Cologne`
+    city: `Amsterdam`,
+    lat: 52.3809553943508,
+    lng: 4.939309666406198
   }
 ];
