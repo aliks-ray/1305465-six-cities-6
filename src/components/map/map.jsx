@@ -45,11 +45,10 @@ const Map = ({baseCoords, offers}) => {
         )
         .addTo(mapRef.current)
         .bindPopup(offer.title);
-
-      return () => {
-        mapRef.current.remove();
-      };
     });
+    return () => {
+      mapRef.current.remove();
+    };
   }, []);
 
   return (
