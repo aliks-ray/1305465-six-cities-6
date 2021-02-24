@@ -11,3 +11,9 @@ export const offerType = PropTypes.shape({
   isPremium: PropTypes.bool.isRequired,
   city: PropTypes.string.isRequired
 });
+
+export const baseMapCoordinates = PropTypes.shape({
+  zoom: PropTypes.number.isRequired,
+  lat: PropTypes.number.isRequired,
+  lng: PropTypes.number.isRequired
+});
