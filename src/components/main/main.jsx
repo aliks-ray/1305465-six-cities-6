@@ -1,15 +1,10 @@
 import React from "react";
 import Header from "../header/header.jsx";
-import OffersList from "../cards-list/cards-list.jsx";
+import CardsList from "../cards-list/cards-list.jsx";
 import PropTypes from "prop-types";
 import {offerType} from "../../prop-types/prop-types.js";
 import Map from "../map/map.jsx";
-
-const baseCoords = {
-  zoom: 12,
-  lat: 52.38333,
-  lng: 4.9
-};
+import {baseCoords} from "../../consts/consts.js";
 
 const MainPage = ({adCount, offers}) => (
   <div className="page page--gray page--main">
@@ -85,9 +80,7 @@ const MainPage = ({adCount, offers}) => (
                 </li>
               </ul>
             </form>
-            <div className="cities__places-list places__list tabs__content">
-              <OffersList offers={offers} />
-            </div>
+            <CardsList offers={offers} cardType="main" />
           </section>
           <div className="cities__right-section">
             <section className="cities__map map">
