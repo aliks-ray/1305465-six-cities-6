@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import {getRating} from "../../utils/utils.js";
 import {Link} from "react-router-dom";
 import {offerType} from "../../prop-types/prop-types.js";
+import {CardSettings} from "../../consts/consts.js";
 
-const Card = ({offer, setPlaceCardId}) => {
+const Card = ({offer, setPlaceCardId, cardType}) => {
   const checkPremium = () =>
     offer.isPremium && (
       <div className="place-card__mark">
@@ -22,14 +23,16 @@ const Card = ({offer, setPlaceCardId}) => {
 
   return (
     <article
-      className="cities__place-card place-card"
+      className={`${CardSettings[cardType].cardClass} place-card`}
       onMouseOver={() => setPlaceCardId(offer)}
     >
       {checkPremium()}
       <div className="place-card__mark">
         <span>Premium</span>
       </div>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div
+        className={`${CardSettings[cardType].imageClass} place-card__image-wrapper`}
+      >
         <a href="#">
           <img
             className="place-card__image"
@@ -70,7 +73,8 @@ const Card = ({offer, setPlaceCardId}) => {
 
 Card.propTypes = {
   offer: offerType.isRequired,
-  setPlaceCardId: PropTypes.func.isRequired
+  setPlaceCardId: PropTypes.func.isRequired,
+  cardType: PropTypes.string.isRequired
 };
 
 export default Card;
