@@ -25,3 +25,12 @@ export const CardsListSettings = {
     containerClass: `cities__places-list tabs__content`
   }
 };
+
+export const Cities = {
+  paris: `Paris`,
+  amsterdam: `Amsterdam`,
+  cologne: `Cologne`,
+  brussels: `Brussels`,
+  hamburg: `Hamburg`,
+  dusseldorf: `Dusseldorf`
+};
