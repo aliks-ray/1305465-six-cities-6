@@ -8,7 +8,7 @@ export const OFFERS = [
     previewImage: `./img/room.jpg`,
     isFavorite: false,
     isPremium: false,
-    city: `Amsterdam`,
+    city: `Paris`,
     lat: 52.3909553943508,
     lng: 4.85309666406198
   },
@@ -21,7 +21,7 @@ export const OFFERS = [
     previewImage: `./img/apartment-01.jpg`,
     isFavorite: true,
     isPremium: false,
-    city: `Amsterdam`,
+    city: `Paris`,
     lat: 52.369553943508,
     lng: 4.85309666406198
   },
