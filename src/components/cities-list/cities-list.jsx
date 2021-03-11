@@ -11,9 +11,8 @@ export const CitiesList = ({currentCityName, onSetCity}) => (
         key={Cities[key]}
       >
         <a
-          className={`locations__item-link tabs__item${
-            Cities[key] === currentCityName ? ` tabs__item--active` : ``
-          }`}
+          className={`locations__item-link tabs__item${Cities[key] ===
+            currentCityName && ` tabs__item--active`}`}
         >
           <span>{Cities[key]}</span>
         </a>
