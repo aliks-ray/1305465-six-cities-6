@@ -6,7 +6,7 @@ import {offerType} from "../../prop-types/prop-types.js";
 import Map from "../map/map.jsx";
 import {baseCoords} from "../../consts/consts.js";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../store/actions.js";
+import {setCity} from "../../store/actions.js";
 import {Cities} from "../../consts/consts.js";
 import CitiesList from "../cities-list/cities-list.jsx";
 
@@ -18,9 +18,7 @@ const MainPage = ({
 }) => {
   const [activeOfferId, setActiveOfferId] = useState(null);
 
-  const onChangeActiveOffer = (id) => {
-    setActiveOfferId(id);
-  };
+  const onChangeActiveOffer = (id) => setActiveOfferId(id);
 
   const offersToShow = offersInCurrentCity.slice(0, adCount);
 
@@ -107,11 +105,11 @@ const mapStateToProps = (state) => ({
   adCount: state.adCount
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onSetCity(cityName) {
-    dispatch(ActionCreator.setCity(cityName));
-  }
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSetCity: (cityName) => dispatch(setCity(cityName))
+  };
+};
 
 export {MainPage};
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
