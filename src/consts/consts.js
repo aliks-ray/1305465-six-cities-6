@@ -27,10 +27,17 @@ export const CardsListSettings = {
 };
 
 export const Cities = {
-  paris: `Paris`,
-  amsterdam: `Amsterdam`,
-  cologne: `Cologne`,
-  brussels: `Brussels`,
-  hamburg: `Hamburg`,
-  dusseldorf: `Dusseldorf`
+  PARIS: `Paris`,
+  AMSTERDAM: `Amsterdam`,
+  COLOGNE: `Cologne`,
+  BRUSSELS: `Brussels`,
+  HAMBURG: `Hamburg`,
+  DUSSELDORF: `Dusseldorf`
+};
+
+export const SortingTypes = {
+  POPULAR: `Popular`,
+  PRICE_LOW: `Price: low to high`,
+  PRICE_HIGH: `Price: high to low`,
+  RATING: `Top rated first`
 };

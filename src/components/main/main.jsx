@@ -5,16 +5,19 @@ import PropTypes from "prop-types";
 import {offerType} from "../../prop-types/prop-types.js";
 import Map from "../map/map.jsx";
 import {baseCoords} from "../../consts/consts.js";
+import {sortOffers} from "../../utils/utils.js";
 import {connect} from "react-redux";
 import {setCity} from "../../store/actions.js";
 import {Cities} from "../../consts/consts.js";
 import CitiesList from "../cities-list/cities-list.jsx";
+import Sorting from "../sorting/sorting.jsx";
 
 const MainPage = ({
   adCount,
   offersInCurrentCity,
   currentCityName,
-  onSetCity
+  onSetCity,
+  sortedOffers
 }) => {
   const [activeOfferId, setActiveOfferId] = useState(null);
 
@@ -42,34 +45,9 @@ const MainPage = ({
               <b className="places__found">
                 {`${offersInCurrentCity.length} places to stay in ${currentCityName}`}
               </b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width={7} height={4}>
-                    <use xlinkHref="#icon-arrow-select" />
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
-                    Popular
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: low to high
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: high to low
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Top rated first
-                  </li>
-                </ul>
-              </form>
+              <Sorting />
               <CardsList
-                offers={offersToShow}
+                offers={sortedOffers}
                 cardType="main"
                 onChangeActiveOffer={onChangeActiveOffer}
               />
@@ -94,7 +72,8 @@ MainPage.propTypes = {
   adCount: PropTypes.number.isRequired,
   offersInCurrentCity: PropTypes.arrayOf(offerType).isRequired,
   currentCityName: PropTypes.oneOf(Object.values(Cities)),
-  onSetCity: PropTypes.func.isRequired
+  onSetCity: PropTypes.func.isRequired,
+  sortedOffers: PropTypes.arrayOf(offerType).isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -102,7 +81,11 @@ const mapStateToProps = (state) => ({
       (offer) => offer.city === state.currentCityName
   ),
   currentCityName: state.currentCityName,
-  adCount: state.adCount
+  adCount: state.adCount,
+  sortedOffers: sortOffers(
+      state.offers.filter((offer) => offer.city === state.currentCityName),
+      state.activeSorting
+  )
 });
 
 const mapDispatchToProps = (dispatch) => {

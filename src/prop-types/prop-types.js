@@ -30,3 +30,10 @@ export const reviewType = PropTypes.shape({
     name: PropTypes.string.isRequired
   })
 });
+
+export const sortingTypes = PropTypes.shape({
+  POPULAR: PropTypes.string,
+  PRICE_LOW_TO_HIGH: PropTypes.string,
+  PRICE_HIGH_TO_LOW: PropTypes.string,
+  TOP_RATED_FIRST: PropTypes.string
+});
