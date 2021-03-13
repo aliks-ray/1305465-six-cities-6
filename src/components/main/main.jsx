@@ -19,11 +19,16 @@ const MainPage = ({
   onSetCity,
   sortedOffers
 }) => {
-  const [activeOfferId, setActiveOfferId] = useState(null);
+  const [currentOfferId, setCurrentOfferId] = useState(null);
 
-  const onChangeActiveOffer = (id) => setActiveOfferId(id);
+  const handleMouseEnter = (offer) => {
+    setCurrentOfferId(offer.id);
+  };
+  const handleMouseLeave = () => {
+    setCurrentOfferId(null);
+  };
 
-  const offersToShow = offersInCurrentCity.slice(0, adCount);
+  const offersToShow = sortedOffers.slice(0, adCount);
 
   return (
     <div className="page page--gray page--main">
@@ -47,9 +52,10 @@ const MainPage = ({
               </b>
               <Sorting />
               <CardsList
-                offers={sortedOffers}
+                offers={offersToShow}
                 cardType="main"
-                onChangeActiveOffer={onChangeActiveOffer}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
               />
             </section>
             <div className="cities__right-section">
@@ -57,7 +63,7 @@ const MainPage = ({
                 <Map
                   baseCoords={baseCoords}
                   offers={offersToShow}
-                  activeOfferId={activeOfferId}
+                  currentOfferId={currentOfferId}
                 />
               </section>
             </div>
@@ -73,7 +79,8 @@ MainPage.propTypes = {
   offersInCurrentCity: PropTypes.arrayOf(offerType).isRequired,
   currentCityName: PropTypes.oneOf(Object.values(Cities)),
   onSetCity: PropTypes.func.isRequired,
-  sortedOffers: PropTypes.arrayOf(offerType).isRequired
+  sortedOffers: PropTypes.arrayOf(offerType).isRequired,
+  onSetActiveOffer: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
