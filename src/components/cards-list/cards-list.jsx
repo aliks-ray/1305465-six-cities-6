@@ -1,12 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Card from "../card/card.jsx";
 import {offerType} from "../../prop-types/prop-types.js";
 import {CardsListSettings} from "../../consts/consts.js";
 
-const CardsList = ({offers, cardType}) => {
-  const [placeCardId, setPlaceCardId] = useState(0);
-
+const CardsList = ({offers, cardType, onMouseEnter, onMouseLeave}) => {
   return (
     <div
       className={`${CardsListSettings[cardType].containerClass} places__list`}
@@ -14,10 +12,11 @@ const CardsList = ({offers, cardType}) => {
       {offers.map((offer) => (
         <Card
           key={offer.id}
+          id={offer.id}
           offer={offer}
-          placeCardId={placeCardId}
-          setPlaceCardId={setPlaceCardId}
           cardType={cardType}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
         />
       ))}
     </div>
@@ -26,7 +25,9 @@ const CardsList = ({offers, cardType}) => {
 
 CardsList.propTypes = {
   offers: PropTypes.arrayOf(offerType).isRequired,
-  cardType: PropTypes.string.isRequired
+  cardType: PropTypes.string.isRequired,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func
 };
 
 export default CardsList;

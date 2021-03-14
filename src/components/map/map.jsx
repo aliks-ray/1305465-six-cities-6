@@ -4,7 +4,7 @@ import {offerType, baseMapCoordinates} from "../../prop-types/prop-types.js";
 import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const Map = ({baseCoords, offers}) => {
+const Map = ({baseCoords, offers, currentOfferId}) => {
   const mapRef = useRef();
 
   useEffect(() => {
@@ -29,7 +29,9 @@ const Map = ({baseCoords, offers}) => {
 
     offers.forEach((offer) => {
       const customIcon = leaflet.icon({
-        iconUrl: `img/pin.svg`,
+        iconUrl: `${
+          currentOfferId !== offer.id ? `./img/pin.svg` : `./img/pin-active.svg`
+        }`,
         iconSize: [30, 30]
       });
 
@@ -50,7 +52,7 @@ const Map = ({baseCoords, offers}) => {
     return () => {
       mapRef.current.remove();
     };
-  }, [baseCoords, offers]);
+  }, [baseCoords, offers, currentOfferId]);
 
   return (
     <div
@@ -65,7 +67,8 @@ const Map = ({baseCoords, offers}) => {
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(offerType).isRequired,
-  baseCoords: baseMapCoordinates.isRequired
+  baseCoords: baseMapCoordinates.isRequired,
+  currentOfferId: PropTypes.oneOfType([PropTypes.bool, PropTypes.number])
 };
 
 export default Map;

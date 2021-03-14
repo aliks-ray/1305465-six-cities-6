@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {offerType} from "../../prop-types/prop-types.js";
 import {CardSettings} from "../../consts/consts.js";
 
-const Card = ({offer, setPlaceCardId, cardType}) => {
+const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
   const checkPremium = () =>
     offer.isPremium && (
       <div className="place-card__mark">
@@ -24,7 +24,8 @@ const Card = ({offer, setPlaceCardId, cardType}) => {
   return (
     <article
       className={`${CardSettings[cardType].cardClass} place-card`}
-      onMouseOver={() => setPlaceCardId(offer)}
+      onMouseEnter={() => onMouseEnter(offer)}
+      onMouseLeave={() => onMouseLeave()}
     >
       {checkPremium()}
       <div className="place-card__mark">
@@ -71,10 +72,16 @@ const Card = ({offer, setPlaceCardId, cardType}) => {
   );
 };
 
+Card.defaultProps = {
+  onMouseEnter: () => {},
+  onMouseLeave: () => {}
+};
+
 Card.propTypes = {
   offer: offerType.isRequired,
-  setPlaceCardId: PropTypes.func.isRequired,
-  cardType: PropTypes.string.isRequired
+  cardType: PropTypes.string.isRequired,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func
 };
 
 export default Card;

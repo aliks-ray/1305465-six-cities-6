@@ -4,6 +4,7 @@ import App from "./components/app/app.jsx";
 import {OFFERS} from "./mocks/offers";
 import {REVIEWS} from "./mocks/reviews";
 import {createStore} from "redux";
+import {composeWithDevTools} from "redux-devtools-extension";
 import {Provider} from "react-redux";
 import {reducer} from "./store/reducers/reducer.js";
 
@@ -11,7 +12,7 @@ const Setting = {
   AD_COUNT: 5
 };
 
-const store = createStore(reducer);
+const store = createStore(reducer, composeWithDevTools());
 
 ReactDOM.render(
     <Provider store={store}>
