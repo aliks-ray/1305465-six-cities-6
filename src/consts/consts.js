@@ -1,9 +1,3 @@
-export const baseCoords = {
-  zoom: 12,
-  lat: 52.38333,
-  lng: 4.9
-};
-
 export const CardSettings = {
   near: {
     containerClass: `near-places__list`,
@@ -40,4 +34,9 @@ export const SortingTypes = {
   PRICE_LOW: `Price: low to high`,
   PRICE_HIGH: `Price: high to low`,
   RATING: `Top rated first`
+};
+
+export const AuthorizationStatus = {
+  AUTH: `AUTH`,
+  NO_AUTH: `NO_AUTH`
 };

@@ -1,25 +1,37 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Header from "../header/header.jsx";
 import CardsList from "../cards-list/cards-list.jsx";
 import PropTypes from "prop-types";
 import {offerType} from "../../prop-types/prop-types.js";
 import Map from "../map/map.jsx";
-import {baseCoords} from "../../consts/consts.js";
 import {sortOffers} from "../../utils/utils.js";
 import {connect} from "react-redux";
 import {setCity} from "../../store/actions.js";
 import {Cities} from "../../consts/consts.js";
 import CitiesList from "../cities-list/cities-list.jsx";
 import Sorting from "../sorting/sorting.jsx";
+import {fetchOffersList} from "../../store/api-actions.js";
+import LoadingScreen from "../loading-screen/loading-screen.jsx";
 
 const MainPage = ({
-  adCount,
   offersInCurrentCity,
   currentCityName,
   onSetCity,
-  sortedOffers
+  sortedOffers,
+  isOffersLoaded,
+  onLoadOffers
 }) => {
   const [currentOfferId, setCurrentOfferId] = useState(null);
+
+  useEffect(() => {
+    if (!isOffersLoaded) {
+      onLoadOffers();
+    }
+  }, [isOffersLoaded]);
+
+  if (!isOffersLoaded) {
+    return <LoadingScreen />;
+  }
 
   const handleMouseEnter = (offer) => {
     setCurrentOfferId(offer.id);
@@ -27,8 +39,6 @@ const MainPage = ({
   const handleMouseLeave = () => {
     setCurrentOfferId(null);
   };
-
-  const offersToShow = sortedOffers.slice(0, adCount);
 
   return (
     <div className="page page--gray page--main">
@@ -52,7 +62,7 @@ const MainPage = ({
               </b>
               <Sorting />
               <CardsList
-                offers={offersToShow}
+                offers={sortedOffers}
                 cardType="main"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
@@ -60,11 +70,7 @@ const MainPage = ({
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map
-                  baseCoords={baseCoords}
-                  offers={offersToShow}
-                  currentOfferId={currentOfferId}
-                />
+                <Map offers={sortedOffers} currentOfferId={currentOfferId} />
               </section>
             </div>
           </div>
@@ -80,24 +86,27 @@ MainPage.propTypes = {
   currentCityName: PropTypes.oneOf(Object.values(Cities)),
   onSetCity: PropTypes.func.isRequired,
   sortedOffers: PropTypes.arrayOf(offerType).isRequired,
-  onSetActiveOffer: PropTypes.func
+  onSetActiveOffer: PropTypes.func,
+  isOffersLoaded: PropTypes.bool.isRequired,
+  onLoadOffers: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   offersInCurrentCity: state.offers.filter(
-      (offer) => offer.city === state.currentCityName
+      (offer) => offer.city.name === state.currentCityName
   ),
   currentCityName: state.currentCityName,
-  adCount: state.adCount,
   sortedOffers: sortOffers(
-      state.offers.filter((offer) => offer.city === state.currentCityName),
+      state.offers.filter((offer) => offer.city.name === state.currentCityName),
       state.activeSorting
-  )
+  ),
+  isOffersLoaded: state.isOffersLoaded
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSetCity: (cityName) => dispatch(setCity(cityName))
+    onSetCity: (cityName) => dispatch(setCity(cityName)),
+    onLoadOffers: () => dispatch(fetchOffersList())
   };
 };
 

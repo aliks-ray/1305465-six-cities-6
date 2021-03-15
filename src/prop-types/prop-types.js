@@ -1,33 +1,54 @@
 import PropTypes from "prop-types";
 
 export const offerType = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  rating: PropTypes.number.isRequired,
-  previewImage: PropTypes.string.isRequired,
-  isFavorite: PropTypes.bool.isRequired,
-  isPremium: PropTypes.bool.isRequired,
-  city: PropTypes.string.isRequired
-});
-
-export const baseMapCoordinates = PropTypes.shape({
-  zoom: PropTypes.number.isRequired,
-  lat: PropTypes.number.isRequired,
-  lng: PropTypes.number.isRequired
+  offer: PropTypes.shape({
+    bedrooms: PropTypes.number.isRequired,
+    city: PropTypes.shape({
+      location: PropTypes.shape({
+        latitude: PropTypes.number.isRequired,
+        longitude: PropTypes.number.isRequired,
+        zoom: PropTypes.number.isRequired
+      }),
+      cityName: PropTypes.string.isRequired
+    }),
+    description: PropTypes.array.isRequired,
+    goods: PropTypes.arrayOf(PropTypes.string.isRequired),
+    host: PropTypes.shape({
+      avatarUrl: PropTypes.string,
+      userId: PropTypes.number.isRequired,
+      isUserPro: PropTypes.bool.isRequired,
+      userName: PropTypes.string.isRequired
+    }),
+    id: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool.isRequired,
+    isPremium: PropTypes.bool.isRequired,
+    point: PropTypes.shape({
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
+      zoom: PropTypes.number.isRequired
+    }),
+    hotelImages: PropTypes.arrayOf(PropTypes.string.isRequired),
+    price: PropTypes.number.isRequired,
+    maxAdults: PropTypes.number.isRequired,
+    rating: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired
+  })
 });
 
 export const reviewType = PropTypes.shape({
-  comment: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  rating: PropTypes.number.isRequired,
-  user: PropTypes.shape({
-    avatarUrl: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    isPro: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired
+  review: PropTypes.shape({
+    comment: PropTypes.array.isRequired,
+    date: PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired,
+    rating: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      avatarUrl: PropTypes.string.isRequired,
+      userId: PropTypes.number.isRequired,
+      isPro: PropTypes.bool.isRequired,
+      name: PropTypes.string.isRequired
+    })
   })
 });
 

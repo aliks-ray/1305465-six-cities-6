@@ -8,7 +8,6 @@ import Map from "../map/map.jsx";
 import ReviewsList from "../reviews-list/reviews-list.jsx";
 import CardsList from "../cards-list/cards-list.jsx";
 import {getRating} from "../../utils/utils.js";
-import {baseCoords} from "../../consts/consts.js";
 
 const OfferPage = ({offers, reviews}) => {
   let {id} = useParams();
@@ -171,7 +170,7 @@ const OfferPage = ({offers, reviews}) => {
               </section>
             </div>
           </div>
-          <Map baseCoords={baseCoords} offers={nearPlaces} />
+          <Map offers={nearPlaces} />
         </section>
         <div className="container">
           <section className="near-places places">
