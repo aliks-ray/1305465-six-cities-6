@@ -2,7 +2,9 @@ export const ActionType = {
   SET_CITY: `main/set-sity`,
   CHANGE_SORTING: `sorting/changeSorting`,
   LOAD_OFFERS: `offers/loadOffers`,
-  REQUIRED_AUTHORIZATION: `user/requiredAuthorization`
+  SET_AUTH_INFO: `user/setAuthInfo`,
+  REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
+  REDIRECT_TO_ROUTE: `route/redirectToRoute`
 };
 
 export const setCity = (cityName) => ({
@@ -23,4 +25,14 @@ export const loadOffers = (offers) => ({
 export const requireAuthorization = (status) => ({
   type: ActionType.REQUIRED_AUTHORIZATION,
   payload: status
+});
+
+export const setAuthInfo = (authInfo) => ({
+  type: ActionType.SET_AUTH_INFO,
+  payload: authInfo
+});
+
+export const redirectToRoute = (url) => ({
+  type: ActionType.REDIRECT_TO_ROUTE,
+  payload: url
 });
