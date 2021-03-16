@@ -6,24 +6,22 @@ import OfferPage from "../offer/offer.jsx";
 import NotFoundPage from "../page404/page404.jsx";
 import PropTypes from "prop-types";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import {offerType} from "../../prop-types/prop-types.js";
-import {OFFERS} from "../../mocks/offers.js";
-import {REVIEWS} from "../../mocks/reviews.js";
+import {offerType, reviewType} from "../../prop-types/prop-types.js";
 
-const App = ({adCount}) => (
+const App = ({adCount, offers, reviews}) => (
   <BrowserRouter>
     <Switch>
       <Route path="/" exact>
-        <MainPage adCount={adCount} offers={OFFERS} />
+        <MainPage adCount={adCount} offers={offers} />
       </Route>
       <Route path="/login" exact>
         <LoginPage />
       </Route>
       <Route path="/favorites" exact>
-        <FavoritesPage offers={OFFERS} />
+        <FavoritesPage offers={offers} />
       </Route>
       <Route path="/offer/:id" exact>
-        <OfferPage offers={OFFERS} reviews={REVIEWS} />
+        <OfferPage offers={offers} reviews={reviews} />
       </Route>
       <Route>
         <NotFoundPage />
@@ -34,7 +32,8 @@ const App = ({adCount}) => (
 
 App.propTypes = {
   adCount: PropTypes.number.isRequired,
-  offers: PropTypes.arrayOf(offerType).isRequired
+  offers: PropTypes.arrayOf(offerType).isRequired,
+  reviews: PropTypes.arrayOf(reviewType).isRequired
 };
 
 export default App;

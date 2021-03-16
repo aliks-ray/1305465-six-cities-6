@@ -1,11 +1,17 @@
 import React, {useEffect, useRef} from "react";
 import PropTypes from "prop-types";
-import {offerType, baseMapCoordinates} from "../../prop-types/prop-types.js";
+import {offerType} from "../../prop-types/prop-types.js";
 import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const Map = ({baseCoords, offers, currentOfferId}) => {
+const Map = ({offers, currentOfferId}) => {
   const mapRef = useRef();
+
+  const baseZoom = offers[0].city.location.zoom;
+  const baseCoords = {
+    lat: offers[0].city.location.lat,
+    lng: offers[0].city.location.lng
+  };
 
   useEffect(() => {
     mapRef.current = leaflet.map(`map`, {
@@ -13,7 +19,7 @@ const Map = ({baseCoords, offers, currentOfferId}) => {
         lat: baseCoords.lat,
         lng: baseCoords.lng
       },
-      zoom: baseCoords.zoom,
+      zoom: baseZoom,
       zoomControl: false,
       marker: true
     });
@@ -38,8 +44,8 @@ const Map = ({baseCoords, offers, currentOfferId}) => {
       leaflet
         .marker(
             {
-              lat: offer.lat,
-              lng: offer.lng
+              lat: offer.location.lat,
+              lng: offer.location.lng
             },
             {
               icon: customIcon
@@ -67,7 +73,6 @@ const Map = ({baseCoords, offers, currentOfferId}) => {
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(offerType).isRequired,
-  baseCoords: baseMapCoordinates.isRequired,
   currentOfferId: PropTypes.oneOfType([PropTypes.bool, PropTypes.number])
 };
 
