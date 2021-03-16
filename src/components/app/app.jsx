@@ -7,15 +7,6 @@ import NotFoundPage from "../page404/page404.jsx";
 import PropTypes from "prop-types";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {offerType, reviewType} from "../../prop-types/prop-types.js";
-// import PrivateRoute from '../private-route/private-route';
-// import {OFFERS} from "../../mocks/offers.js";
-// import {REVIEWS} from "../../mocks/reviews.js";
-
-// <PrivateRoute exact
-//   path="/"
-//   render={() => <MainPage adCount={adCount} offers={offers} />}
-// >
-// </PrivateRoute>
 
 const App = ({adCount, offers, reviews}) => (
   <BrowserRouter>

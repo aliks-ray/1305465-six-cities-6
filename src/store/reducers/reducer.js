@@ -1,6 +1,5 @@
 import {ActionType} from "../actions.js";
 import {adaptOffersData} from "../../api/adapter/adapter.js";
-// import {OFFERS} from "../../mocks/offers.js";
 import {
   Cities,
   SortingTypes,
