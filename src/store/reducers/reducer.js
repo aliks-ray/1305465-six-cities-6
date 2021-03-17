@@ -12,7 +12,8 @@ const initialState = {
   isOffersLoaded: false,
   offers: [],
   adCount: 5,
-  activeSorting: SortingTypes.POPULAR
+  activeSorting: SortingTypes.POPULAR,
+  authInfo: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,17 +28,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         activeSorting: action.payload
       };
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload
+      };
     case ActionType.LOAD_OFFERS:
       return {
         ...state,
         offers: adaptOffersData(action.payload),
         isOffersLoaded: true
       };
-    case ActionType.REQUIRED_AUTHORIZATION:
+    case ActionType.SET_AUTH_INFO: {
       return {
         ...state,
-        authorizationStatus: action.payload
+        authInfo: action.payload
       };
+    }
     default:
       return state;
   }

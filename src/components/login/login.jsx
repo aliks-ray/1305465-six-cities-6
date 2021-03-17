@@ -1,21 +1,18 @@
 import React, {useRef} from "react";
-import {useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
 import Header from "../header/header.jsx";
 
 const LoginPage = ({onSubmit}) => {
-  const loginRef = useRef();
+  const emailRef = useRef();
   const passwordRef = useRef();
-
-  const history = useHistory();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
     onSubmit({
-      login: loginRef.current.value,
+      email: emailRef.current.value,
       password: passwordRef.current.value
     });
   };
@@ -39,7 +36,7 @@ const LoginPage = ({onSubmit}) => {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  ref={loginRef}
+                  ref={emailRef}
                   required
                 />
               </div>
@@ -57,7 +54,6 @@ const LoginPage = ({onSubmit}) => {
               <button
                 className="login__submit form__submit button"
                 type="submit"
-                onClick={() => history.push(`/`)}
               >
                 Sign in
               </button>

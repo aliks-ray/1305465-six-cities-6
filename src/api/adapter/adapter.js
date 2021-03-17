@@ -40,3 +40,13 @@ export const adaptOffersData = (data) => {
     return adaptOfferData(offerData);
   });
 };
+
+export const adaptAuthData = (authData) => {
+  return {
+    avatarUrl: authData[`avatar_url`],
+    email: authData.email,
+    id: authData.id,
+    isPro: authData[`is_pro`],
+    name: authData.name
+  };
+};

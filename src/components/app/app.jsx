@@ -5,11 +5,13 @@ import LoginPage from "../login/login.jsx";
 import OfferPage from "../offer/offer.jsx";
 import NotFoundPage from "../page404/page404.jsx";
 import PropTypes from "prop-types";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {Router, Route, Switch} from "react-router-dom";
 import {offerType, reviewType} from "../../prop-types/prop-types.js";
+import PrivateRoute from "../private-route/private-route.jsx";
+import browserHistory from "../../browser-history.js";
 
 const App = ({adCount, offers, reviews}) => (
-  <BrowserRouter>
+  <Router history={browserHistory}>
     <Switch>
       <Route path="/" exact>
         <MainPage adCount={adCount} offers={offers} />
@@ -17,9 +19,11 @@ const App = ({adCount, offers, reviews}) => (
       <Route path="/login" exact>
         <LoginPage />
       </Route>
-      <Route path="/favorites" exact>
-        <FavoritesPage offers={offers} />
-      </Route>
+      <PrivateRoute
+        exact
+        path="/favorites"
+        render={() => <FavoritesPage offers={offers} />}
+      />
       <Route path="/offer/:id" exact>
         <OfferPage offers={offers} reviews={reviews} />
       </Route>
@@ -27,7 +31,7 @@ const App = ({adCount, offers, reviews}) => (
         <NotFoundPage />
       </Route>
     </Switch>
-  </BrowserRouter>
+  </Router>
 );
 
 App.propTypes = {
