@@ -1,5 +1,5 @@
 import React from "react";
-import {Cities} from "../../consts/consts.js";
+import {Cities} from "../../../consts/consts.js";
 import PropTypes from "prop-types";
 
 export const CitiesList = ({currentCityName, onSetCity}) => (

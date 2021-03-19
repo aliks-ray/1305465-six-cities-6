@@ -1,13 +1,13 @@
 import React from "react";
-import Header from "../header/header.jsx";
-import CommentForm from "../comment-form/comment-form.jsx";
+import Header from "../../layout/header/header.jsx";
+import CommentForm from "../../reviews/comment-form/comment-form.jsx";
 import PropTypes from "prop-types";
 import {useParams} from "react-router-dom";
-import {offerType, reviewType} from "../../prop-types/prop-types.js";
-import Map from "../map/map.jsx";
-import ReviewsList from "../reviews-list/reviews-list.jsx";
-import CardsList from "../cards-list/cards-list.jsx";
-import {getRating} from "../../utils/utils.js";
+import {offerType, reviewType} from "../../../prop-types/prop-types.js";
+import Map from "../../map/map.jsx";
+import ReviewsList from "../../reviews/reviews-list/reviews-list.jsx";
+import CardsList from "../../cards/cards-list/cards-list.jsx";
+import {getRating} from "../../../utils/utils.js";
 
 const OfferPage = ({offers, reviews}) => {
   let {id} = useParams();

@@ -1,7 +1,7 @@
 import React from "react";
-import {getRating} from "../../utils/utils.js";
+import {getRating} from "../../../utils/utils.js";
 import {Link} from "react-router-dom";
-import {offerType} from "../../prop-types/prop-types.js";
+import {offerType} from "../../../prop-types/prop-types.js";
 
 const FavoriteCard = ({offer}) => (
   <article className="favorites__card place-card">

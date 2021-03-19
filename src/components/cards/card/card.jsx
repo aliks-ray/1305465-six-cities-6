@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {getRating} from "../../utils/utils.js";
+import {getRating} from "../../../utils/utils.js";
 import {Link} from "react-router-dom";
-import {offerType} from "../../prop-types/prop-types.js";
-import {CardSettings} from "../../consts/consts.js";
+import {offerType} from "../../../prop-types/prop-types.js";
+import {CardSettings} from "../../../consts/consts.js";
+import classNames from "classnames";
 
 const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
   const checkPremium = () =>
@@ -21,9 +22,13 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
     return buttonFavoriteClasses.join(` `);
   };
 
+  const ifPageNotMain = cardType === CardSettings.NEAR;
+
   return (
     <article
-      className={`${CardSettings[cardType].cardClass} place-card`}
+      className={classNames(`place-card cities__place-card`, {
+        "place-card near-places__card": ifPageNotMain
+      })}
       onMouseEnter={() => onMouseEnter(offer)}
       onMouseLeave={() => onMouseLeave()}
     >
@@ -32,7 +37,12 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
         <span>Premium</span>
       </div>
       <div
-        className={`${CardSettings[cardType].imageClass} place-card__image-wrapper`}
+        className={classNames(
+            `place-card__image-wrapper cities__image-wrapper`,
+            {
+              "place-card__image-wrapper near-places__image-wrapper": ifPageNotMain
+            }
+        )}
       >
         <a href="#">
           <img

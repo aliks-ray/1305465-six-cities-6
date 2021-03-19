@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/app/app.jsx";
 import {createStore, applyMiddleware} from "redux";
 import {composeWithDevTools} from "redux-devtools-extension";
-import {Provider} from "react-redux";
-import {reducer} from "./store/reducers/reducer.js";
 import thunk from "redux-thunk";
+import {Provider} from "react-redux";
+import App from "./components/app/app.jsx";
+import {reducer} from "./store/reducers/reducer.js";
 import {createAPI} from "./api/api.js";
 import {AuthorizationStatus} from "./consts/consts.js";
 import {requireAuthorization} from "./store/actions.js";
