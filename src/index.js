@@ -12,11 +12,7 @@ import {requireAuthorization} from "./store/actions.js";
 import {checkAuth, fetchOffersList} from "./store/api-actions.js";
 import {redirect} from "./store/redirect.js";
 
-const Setting = {
-  AD_COUNT: 5
-};
-
-const api = createAPI(() =>
+export const api = createAPI(() =>
   store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH))
 );
 
@@ -33,7 +29,7 @@ store.dispatch(fetchOffersList());
 
 ReactDOM.render(
     <Provider store={store}>
-      <App adCount={Setting.AD_COUNT} offers={[]} reviews={[]} />
+      <App offers={[]} />
     </Provider>,
     document.querySelector(`#root`)
 );

@@ -81,7 +81,6 @@ const MainPage = ({
 };
 
 MainPage.propTypes = {
-  adCount: PropTypes.number.isRequired,
   offersInCurrentCity: PropTypes.arrayOf(offerType).isRequired,
   currentCityName: PropTypes.oneOf(Object.values(Cities)),
   onSetCity: PropTypes.func.isRequired,

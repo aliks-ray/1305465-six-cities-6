@@ -44,7 +44,7 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
             }
         )}
       >
-        <a href="#">
+        <Link to={`/offer/${offer.id}`}>
           <img
             className="place-card__image"
             src={offer.previewImage}
@@ -52,7 +52,7 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
             height="200"
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -74,7 +74,7 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="/offer/id">{offer.title}</Link>
+          <Link to={`/offer/${offer.id}`}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

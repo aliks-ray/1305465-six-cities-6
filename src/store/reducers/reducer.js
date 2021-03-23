@@ -1,5 +1,9 @@
 import {ActionType} from "../actions.js";
-import {adaptOffersData} from "../../api/adapter/adapter.js";
+import {
+  adaptOffersData,
+  adaptOfferData,
+  adaptReviewsData
+} from "../../api/adapter/adapter.js";
 import {
   Cities,
   SortingTypes,
@@ -11,9 +15,16 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   isOffersLoaded: false,
   offers: [],
-  adCount: 5,
   activeSorting: SortingTypes.POPULAR,
-  authInfo: {}
+  authInfo: {},
+  offer: {},
+  reviews: [],
+  nearbyOffers: [],
+  onLoadOfferData: false,
+  onLoadNearbyData: false,
+  onLoadReviewsData: false,
+  onLoadReviewsFormData: false,
+  reviewsFormError: ``
 };
 
 const reducer = (state = initialState, action) => {
@@ -38,6 +49,31 @@ const reducer = (state = initialState, action) => {
         ...state,
         offers: adaptOffersData(action.payload),
         isOffersLoaded: true
+      };
+    case ActionType.LOAD_OFFER:
+      return {
+        ...state,
+        offer: adaptOfferData(action.payload),
+        onLoadOfferData: true
+      };
+    case ActionType.LOAD_NEARBY:
+      return {
+        ...state,
+        nearbyOffers: adaptOffersData(action.payload),
+        onLoadNearbyData: true
+      };
+    case ActionType.LOAD_REVIEWS:
+      return {
+        ...state,
+        reviews: adaptReviewsData(action.payload),
+        onLoadReviewsData: true
+      };
+    case ActionType.ADD_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+        onLoadReviewsFormData: true,
+        reviewsFormError: ``
       };
     case ActionType.SET_AUTH_INFO: {
       return {

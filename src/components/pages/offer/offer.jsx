@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Header from "../../layout/header/header.jsx";
 import CommentForm from "../../reviews/comment-form/comment-form.jsx";
 import PropTypes from "prop-types";
@@ -7,73 +7,75 @@ import {offerType, reviewType} from "../../../prop-types/prop-types.js";
 import Map from "../../map/map.jsx";
 import ReviewsList from "../../reviews/reviews-list/reviews-list.jsx";
 import CardsList from "../../cards/cards-list/cards-list.jsx";
+import LoadingScreen from "../../layout/loading-screen/loading-screen.jsx";
 import {getRating} from "../../../utils/utils.js";
+import {connect} from "react-redux";
+import {
+  fetchOffer,
+  fetchReviews,
+  fetchNearby
+} from "../../../store/api-actions.js";
+import {AuthorizationStatus} from "../../../consts/consts.js";
+import ImagesList from "./images-list.jsx";
+import GoodsList from "./goods-list.jsx";
+import HostInfo from "./host-info.jsx";
 
-const OfferPage = ({offers, reviews}) => {
-  let {id} = useParams();
-  const currentOffer = offers.find((offer) => offer.id === Number(id));
-  const currentReviews = reviews.filter(
-      (review) => review.offerId === Number(id)
-  );
-  const nearPlaces = offers.filter((offer) => offer.id !== Number(id));
+const OfferPage = ({
+  authorizationStatus,
+  authInfo,
+  offer,
+  onLoadOffer,
+  onLoadOfferData,
+  nearbyOffers,
+  onLoadNearby,
+  onLoadNearbyData,
+  reviews,
+  onLoadReviews,
+  onLoadReviewsData
+}) => {
+  const isUserAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
+  const {id} = useParams();
+  const [currentOfferId, setCurrentOfferId] = useState(null);
+  const mapMargin = {
+    marginBottom: `50px`
+  };
+
+  const handleMouseEnter = () => {
+    setCurrentOfferId(offer.id);
+  };
+  const handleMouseLeave = () => {
+    setCurrentOfferId(null);
+  };
+
+  useEffect(() => {
+    onLoadOffer(id);
+    onLoadNearby(id);
+    onLoadReviews(id);
+  }, [id]);
+
+  if (!onLoadOfferData || !onLoadNearbyData || !onLoadReviewsData) {
+    return <LoadingScreen />;
+  }
+
   return (
     <div className="page">
       <Header />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
-            <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/room.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-02.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-03.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/studio-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-              <div className="property__image-wrapper">
-                <img
-                  className="property__image"
-                  src="img/apartment-01.jpg"
-                  alt="Photo studio"
-                />
-              </div>
-            </div>
+            <ImagesList offer={offer} />
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
+              {offer.isPremium ? (
+                <div className="property__mark">
+                  <span>Premium</span>
+                </div>
+              ) : (
+                ``
+              )}
               <div className="property__name-wrapper">
-                <h1 className="property__name">{currentOffer.title}</h1>
+                <h1 className="property__name">{offer.title}</h1>
                 <button
                   className="property__bookmark-button button"
                   type="button"
@@ -90,94 +92,69 @@ const OfferPage = ({offers, reviews}) => {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: getRating(currentOffer.rating)}} />
+                  <span style={{width: getRating(offer.rating)}} />
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="property__rating-value rating__value">
-                  {currentOffer.rating}
+                  {offer.rating}
                 </span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {currentOffer.type}
+                  {offer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
+                  {offer.maxAdults} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max 4 adults
+                  Max {offer.maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">
-                  &euro;{currentOffer.price}
-                </b>
+                <b className="property__price-value">&euro;{offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
-                <ul className="property__inside-list">
-                  <li className="property__inside-item">Wi-Fi</li>
-                  <li className="property__inside-item">Washing machine</li>
-                  <li className="property__inside-item">Towels</li>
-                  <li className="property__inside-item">Heating</li>
-                  <li className="property__inside-item">Coffee machine</li>
-                  <li className="property__inside-item">Baby seat</li>
-                  <li className="property__inside-item">Kitchen</li>
-                  <li className="property__inside-item">Dishwasher</li>
-                  <li className="property__inside-item">Cabel TV</li>
-                  <li className="property__inside-item">Fridge</li>
-                </ul>
+                <GoodsList offer={offer} />
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
-                <div className="property__host-user user">
-                  <div className="property__avatar-wrapper property__avatar-wrapper--pro user__avatar-wrapper">
-                    <img
-                      className="property__avatar user__avatar"
-                      src="img/avatar-angelina.jpg"
-                      width={74}
-                      height={74}
-                      alt="Host avatar"
-                    />
-                  </div>
-                  <span className="property__user-name">Angelina</span>
-                </div>
+                <HostInfo offer={offer} />
                 <div className="property__description">
-                  <p className="property__text">
-                    A quiet cozy and picturesque that hides behind a a river by
-                    the unique lightness of Amsterdam. The building is green and
-                    from 18th century.
-                  </p>
-                  <p className="property__text">
-                    An independent House, strategically located between Rembrand
-                    Square and National Opera, but where the bustle of the city
-                    comes to rest in this alley flowery and colorful.
-                  </p>
+                  <p className="property__text">{offer.description}</p>
                 </div>
               </div>
               <section className="property__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot;
-                  <span className="reviews__amount">
-                    {currentReviews.length}
-                  </span>
+                  <span className="reviews__amount">{reviews.length}</span>
                 </h2>
-                {currentReviews.length > 0 && (
-                  <ReviewsList reviews={currentReviews} />
+                <ReviewsList reviews={reviews} />
+                {isUserAuthorized && authInfo.id ? (
+                  <CommentForm offer={offer} />
+                ) : (
+                  ` `
                 )}
-                <CommentForm />
               </section>
             </div>
           </div>
-          <Map offers={nearPlaces} />
+          <section className="map" style={mapMargin}>
+            <Map offers={nearbyOffers} currentOfferId={currentOfferId} />
+          </section>
         </section>
+
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">
               Other places in the neighbourhood
             </h2>
-            <CardsList offers={nearPlaces} cardType="near" />
+            <CardsList
+              offers={nearbyOffers}
+              cardType="near"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            />
           </section>
         </div>
       </main>
@@ -186,8 +163,42 @@ const OfferPage = ({offers, reviews}) => {
 };
 
 OfferPage.propTypes = {
-  offers: PropTypes.arrayOf(offerType).isRequired,
-  reviews: PropTypes.arrayOf(reviewType).isRequired
+  authorizationStatus: PropTypes.string.isRequired,
+  reviews: PropTypes.arrayOf(reviewType).isRequired,
+  onLoadReviews: PropTypes.func.isRequired,
+  onLoadOffer: PropTypes.func.isRequired,
+  offer: offerType.isRequired,
+  onLoadOfferData: PropTypes.bool.isRequired,
+  onLoadNearbyData: PropTypes.bool.isRequired,
+  onLoadNearby: PropTypes.func.isRequired,
+  nearbyOffers: PropTypes.arrayOf(offerType).isRequired,
+  onLoadReviewsData: PropTypes.bool.isRequired,
+  onAddReviews: PropTypes.func,
+  authInfo: PropTypes.shape({
+    avatarUrl: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    isPro: PropTypes.bool,
+    name: PropTypes.string
+  })
 };
 
-export default OfferPage;
+const mapStateToProps = (state) => ({
+  reviews: state.reviews,
+  authorizationStatus: state.authorizationStatus,
+  authInfo: state.authInfo,
+  offer: state.offer,
+  onLoadOfferData: state.onLoadOfferData,
+  nearbyOffers: state.nearbyOffers,
+  onLoadNearbyData: state.onLoadNearbyData,
+  onLoadReviewsData: state.onLoadReviewsData
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadOffer: (id) => dispatch(fetchOffer(id)),
+  onLoadNearby: (id) => dispatch(fetchNearby(id)),
+  onLoadReviews: (id) => dispatch(fetchReviews(id))
+});
+
+export {OfferPage};
+export default connect(mapStateToProps, mapDispatchToProps)(OfferPage);

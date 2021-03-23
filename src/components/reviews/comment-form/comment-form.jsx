@@ -1,26 +1,27 @@
-import React, {useState} from "react";
+import React from "react";
+import {connect} from "react-redux";
+import {addNewReviews} from "../../../store/api-actions.js";
+import {PropTypes} from "prop-types";
+import {offerType} from "../../../prop-types/prop-types.js";
 
-const CommentForm = () => {
-  const [userForm, setUserForm] = useState({
-    rating: ``,
-    review: ``
-  });
-
-  const handleSubmit = (evt) => {
+const CommentForm = ({offer, submitCommentOnServer}) => {
+  const formSubmitHandler = (evt) => {
     evt.preventDefault();
-  };
-
-  const handleFieldChange = (evt) => {
-    const {name, value} = evt.target;
-    setUserForm({...userForm, [name]: value});
+    const formData = new FormData(evt.target);
+    const currentRating = formData.get(`rating`);
+    const reviewComment = formData.get(`comment`);
+    submitCommentOnServer(offer.id, {
+      rating: currentRating,
+      comment: reviewComment
+    });
   };
 
   return (
     <form
+      onSubmit={(evt) => formSubmitHandler(evt)}
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={handleSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
@@ -32,7 +33,6 @@ const CommentForm = () => {
           value="5"
           id="5-stars"
           type="radio"
-          onChange={handleFieldChange}
         />
         <label
           htmlFor="5-stars"
@@ -50,7 +50,6 @@ const CommentForm = () => {
           value="4"
           id="4-stars"
           type="radio"
-          onChange={handleFieldChange}
         />
         <label
           htmlFor="4-stars"
@@ -68,7 +67,6 @@ const CommentForm = () => {
           value="3"
           id="3-stars"
           type="radio"
-          onChange={handleFieldChange}
         />
         <label
           htmlFor="3-stars"
@@ -86,7 +84,6 @@ const CommentForm = () => {
           value="2"
           id="2-stars"
           type="radio"
-          onChange={handleFieldChange}
         />
         <label
           htmlFor="2-stars"
@@ -104,7 +101,6 @@ const CommentForm = () => {
           value="1"
           id="1-star"
           type="radio"
-          onChange={handleFieldChange}
         />
         <label
           htmlFor="1-star"
@@ -118,10 +114,10 @@ const CommentForm = () => {
       </div>
       <textarea
         className="reviews__textarea form__textarea"
-        id="review"
-        name="review"
+        id="comment"
+        name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={handleFieldChange}
+        defaultValue={``}
       ></textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -141,4 +137,20 @@ const CommentForm = () => {
   );
 };
 
-export default CommentForm;
+CommentForm.propTypes = {
+  offer: offerType.isRequired,
+  submitCommentOnServer: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  submitCommentOnServer(id, review) {
+    dispatch(addNewReviews(id, review));
+  }
+});
+
+const mapStateToProps = ({offer}) => ({
+  offer
+});
+
+export {CommentForm};
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
