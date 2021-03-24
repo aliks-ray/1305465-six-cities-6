@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "../header/header.jsx";
-import Footer from "../footer/footer.jsx";
+import Header from "../../layout/header/header.jsx";
+import Footer from "../../layout/footer/footer.jsx";
 import PropTypes from "prop-types";
-import FavoriteCard from "../favorite-card/favorite-card.jsx";
-import {offerType} from "../../prop-types/prop-types.js";
+import FavoriteCard from "../../cards/favorite-card/favorite-card.jsx";
+import {offerType} from "../../../prop-types/prop-types.js";
 
 const FavoritesPage = ({offers}) => {
   const isFavorite = (offer) => offer.isFavorite;

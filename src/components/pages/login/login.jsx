@@ -1,8 +1,8 @@
 import React, {useRef} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {login} from "../../store/api-actions";
-import Header from "../header/header.jsx";
+import {login} from "../../../store/api-actions";
+import Header from "../../layout/header/header.jsx";
 
 const LoginPage = ({onSubmit}) => {
   const emailRef = useRef();

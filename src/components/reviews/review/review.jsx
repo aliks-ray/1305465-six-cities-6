@@ -1,6 +1,6 @@
 import React from "react";
-import {reviewType} from "../../prop-types/prop-types.js";
-import {getRating, formatReviewDate} from "../../utils/utils.js";
+import {reviewType} from "../../../prop-types/prop-types.js";
+import {getRating, formatReviewDate} from "../../../utils/utils.js";
 
 const Review = ({review}) => (
   <li className="reviews__item">

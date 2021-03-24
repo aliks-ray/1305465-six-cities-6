@@ -2,6 +2,10 @@ export const ActionType = {
   SET_CITY: `main/set-sity`,
   CHANGE_SORTING: `sorting/changeSorting`,
   LOAD_OFFERS: `offers/loadOffers`,
+  LOAD_NEARBY: `offer/loadNearby`,
+  LOAD_OFFER: `offer/loadOffer`,
+  LOAD_REVIEWS: `offer/loadReviews`,
+  ADD_REVIEWS: `offer/addReviews`,
   SET_AUTH_INFO: `user/setAuthInfo`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
   REDIRECT_TO_ROUTE: `route/redirectToRoute`
@@ -20,6 +24,26 @@ export const changeSorting = (sorting) => ({
 export const loadOffers = (offers) => ({
   type: ActionType.LOAD_OFFERS,
   payload: offers
+});
+
+export const loadOffer = (offer) => ({
+  type: ActionType.LOAD_OFFER,
+  payload: offer
+});
+
+export const loadNearby = (offers) => ({
+  type: ActionType.LOAD_NEARBY,
+  payload: offers
+});
+
+export const loadReviews = (reviews) => ({
+  type: ActionType.LOAD_REVIEWS,
+  payload: reviews
+});
+
+export const addReviews = (response) => ({
+  type: ActionType.ADD_REVIEWS,
+  payload: response
 });
 
 export const requireAuthorization = (status) => ({

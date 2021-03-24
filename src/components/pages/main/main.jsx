@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from "react";
-import Header from "../header/header.jsx";
-import CardsList from "../cards-list/cards-list.jsx";
-import PropTypes from "prop-types";
-import {offerType} from "../../prop-types/prop-types.js";
-import Map from "../map/map.jsx";
-import {sortOffers} from "../../utils/utils.js";
 import {connect} from "react-redux";
-import {setCity} from "../../store/actions.js";
-import {Cities} from "../../consts/consts.js";
-import CitiesList from "../cities-list/cities-list.jsx";
-import Sorting from "../sorting/sorting.jsx";
-import {fetchOffersList} from "../../store/api-actions.js";
-import LoadingScreen from "../loading-screen/loading-screen.jsx";
+import PropTypes from "prop-types";
+import {offerType} from "../../../prop-types/prop-types.js";
+import {Cities} from "../../../consts/consts.js";
+import LoadingScreen from "../../layout/loading-screen/loading-screen.jsx";
+import Header from "../../layout/header/header.jsx";
+import CitiesList from "../../layout/cities-list/cities-list.jsx";
+import CardsList from "../../cards/cards-list/cards-list.jsx";
+import Sorting from "../../cards/sorting/sorting.jsx";
+import Map from "../../map/map.jsx";
+import {sortOffers} from "../../../utils/utils.js";
+import {setCity} from "../../../store/actions.js";
+import {fetchOffersList} from "../../../store/api-actions.js";
 
 const MainPage = ({
   offersInCurrentCity,
@@ -81,7 +81,6 @@ const MainPage = ({
 };
 
 MainPage.propTypes = {
-  adCount: PropTypes.number.isRequired,
   offersInCurrentCity: PropTypes.arrayOf(offerType).isRequired,
   currentCityName: PropTypes.oneOf(Object.values(Cities)),
   onSetCity: PropTypes.func.isRequired,

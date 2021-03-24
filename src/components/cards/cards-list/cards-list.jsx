@@ -1,13 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {offerType} from "../../../prop-types/prop-types.js";
 import Card from "../card/card.jsx";
-import {offerType} from "../../prop-types/prop-types.js";
-import {CardsListSettings} from "../../consts/consts.js";
+import {CardSettings} from "../../../consts/consts.js";
+import classNames from "classnames";
 
 const CardsList = ({offers, cardType, onMouseEnter, onMouseLeave}) => {
+  const ifPageNotMain = cardType === CardSettings.NEAR;
+
   return (
     <div
-      className={`${CardsListSettings[cardType].containerClass} places__list`}
+      className={classNames(`places__list cities__places-list tabs__content`, {
+        "places__list near-places__list": ifPageNotMain
+      })}
     >
       {offers.map((offer) => (
         <Card

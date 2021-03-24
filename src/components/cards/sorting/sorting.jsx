@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import {SortingTypes} from "../../consts/consts.js";
-import {changeSorting} from "../../store/actions.js";
+import {SortingTypes} from "../../../consts/consts.js";
+import {changeSorting} from "../../../store/actions.js";
 
 const Sorting = ({activeSorting, onChangeSorting}) => {
   const [openedSorting, setOpenedSorting] = useState(null);
