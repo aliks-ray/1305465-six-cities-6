@@ -1,9 +1,9 @@
 import React from "react";
-import {offerType} from "../../../prop-types/prop-types.js";
+import PropTypes from "prop-types";
 
-const GoodsList = ({offer}) => (
+const GoodsList = ({goods}) => (
   <ul className="property__inside-list">
-    {offer.goods.map((good, index) => (
+    {goods.map((good, index) => (
       <li key={`good-${index}`} className="property__inside-item">
         {good}
       </li>
@@ -12,7 +12,7 @@ const GoodsList = ({offer}) => (
 );
 
 GoodsList.propTypes = {
-  offer: offerType.isRequired
+  goods: PropTypes.arrayOf(PropTypes.string.isRequired)
 };
 
 export default GoodsList;

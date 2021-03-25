@@ -5,7 +5,7 @@ import {PropTypes} from "prop-types";
 import {offerType} from "../../../prop-types/prop-types.js";
 
 const CommentForm = ({offer, submitCommentOnServer}) => {
-  const formSubmitHandler = (evt) => {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     const currentRating = formData.get(`rating`);
@@ -18,7 +18,7 @@ const CommentForm = ({offer, submitCommentOnServer}) => {
 
   return (
     <form
-      onSubmit={(evt) => formSubmitHandler(evt)}
+      onSubmit={handleSubmit}
       className="reviews__form form"
       action="#"
       method="post"
@@ -152,5 +152,4 @@ const mapStateToProps = ({offer}) => ({
   offer
 });
 
-export {CommentForm};
 export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);

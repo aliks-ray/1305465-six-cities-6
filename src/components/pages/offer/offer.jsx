@@ -63,7 +63,7 @@ const OfferPage = ({
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
-            <ImagesList offer={offer} />
+            <ImagesList hotelImages={offer.hotelImages} />
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
@@ -116,11 +116,11 @@ const OfferPage = ({
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
-                <GoodsList offer={offer} />
+                <GoodsList goods={offer.goods} />
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
-                <HostInfo offer={offer} />
+                <HostInfo host={offer.host} />
                 <div className="property__description">
                   <p className="property__text">{offer.description}</p>
                 </div>
@@ -200,5 +200,4 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadReviews: (id) => dispatch(fetchReviews(id))
 });
 
-export {OfferPage};
 export default connect(mapStateToProps, mapDispatchToProps)(OfferPage);
