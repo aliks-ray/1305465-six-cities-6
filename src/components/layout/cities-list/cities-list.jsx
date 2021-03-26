@@ -26,4 +26,4 @@ CitiesList.propTypes = {
   onSetCity: PropTypes.func
 };
 
-export default CitiesList;
+export default React.memo(CitiesList);

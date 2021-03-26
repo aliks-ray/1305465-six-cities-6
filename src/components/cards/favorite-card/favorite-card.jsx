@@ -6,7 +6,7 @@ import {offerType} from "../../../prop-types/prop-types.js";
 const FavoriteCard = ({offer}) => (
   <article className="favorites__card place-card">
     <div className="favorites__image-wrapper place-card__image-wrapper">
-      <a href="#">
+      <Link to={`/offer/${offer.id}`}>
         <img
           className="place-card__image"
           src={offer.previewImage}
@@ -14,7 +14,7 @@ const FavoriteCard = ({offer}) => (
           height="110"
           alt="Place image"
         />
-      </a>
+      </Link>
     </div>
     <div className="favorites__card-info place-card__info">
       <div className="place-card__price-wrapper">
@@ -39,7 +39,7 @@ const FavoriteCard = ({offer}) => (
         </div>
       </div>
       <h2 className="place-card__name">
-        <Link to="/offer/id">{offer.title}</Link>
+        <Link to={`/offer/${offer.id}`}>{offer.title}</Link>
       </h2>
       <p className="place-card__type">{offer.type}</p>
     </div>

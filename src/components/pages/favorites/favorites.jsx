@@ -1,18 +1,30 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Header from "../../layout/header/header.jsx";
 import Footer from "../../layout/footer/footer.jsx";
-import PropTypes from "prop-types";
+import {useDispatch, useSelector} from "react-redux";
 import FavoriteCard from "../../cards/favorite-card/favorite-card.jsx";
-import {offerType} from "../../../prop-types/prop-types.js";
+import LoadingScreen from "../../layout/loading-screen/loading-screen.jsx";
+import {fetchFavorites} from "../../../store/api-actions.js";
 
-const FavoritesPage = ({offers}) => {
-  const isFavorite = (offer) => offer.isFavorite;
+const FavoritesPage = () => {
+  const dispatch = useDispatch();
+  const {favoriteOffers, isFavoritesLoaded} = useSelector(
+      (state) => state.DATA_LOAD
+  );
   const groupGyCity = (result, item) => {
-    result[item.city] = [...(result[item.city] || []), item];
+    result[item.city.name] = [...(result[item.city.name] || []), item];
     return result;
   };
 
-  const favoritesOffers = offers.filter(isFavorite).reduce(groupGyCity, {});
+  const currentFavoritesOffers = favoriteOffers.reduce(groupGyCity, {});
+
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [isFavoritesLoaded]);
+
+  if (isFavoritesLoaded) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="page">
@@ -21,8 +33,9 @@ const FavoritesPage = ({offers}) => {
         <div className="page__favorites-container container">
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
+
             <ul className="favorites__list">
-              {Object.keys(favoritesOffers).map((cityKey) => (
+              {Object.keys(currentFavoritesOffers).map((cityKey) => (
                 <li className="favorites__locations-items" key={cityKey}>
                   <div className="favorites__locations locations locations--current">
                     <div className="locations__item">
@@ -32,10 +45,10 @@ const FavoritesPage = ({offers}) => {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {Object.values(favoritesOffers).map((city) =>
+                    {Object.values(currentFavoritesOffers).map((city) =>
                       city.map(
                           (offer) =>
-                            offer.city === cityKey && (
+                            offer.city.name === cityKey && (
                               <FavoriteCard key={offer.id} offer={offer} />
                             )
                       )
@@ -50,10 +63,6 @@ const FavoritesPage = ({offers}) => {
       <Footer />
     </div>
   );
-};
-
-FavoritesPage.propTypes = {
-  offers: PropTypes.arrayOf(offerType).isRequired
 };
 
 export default FavoritesPage;

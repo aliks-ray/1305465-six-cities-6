@@ -26,3 +26,12 @@ export const sortOffers = (offers, sortingType) => {
       return [...offers];
   }
 };
+
+export const updateOfferInList = (updatedOffer, offers, id) => {
+  const offerIndex = offers.findIndex((offer) => offer.id === id);
+  return [
+    ...offers.slice(0, offerIndex),
+    updatedOffer,
+    ...offers.slice(offerIndex + 1)
+  ];
+};

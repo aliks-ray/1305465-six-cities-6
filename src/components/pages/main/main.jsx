@@ -12,6 +12,14 @@ import Map from "../../map/map.jsx";
 import {sortOffers} from "../../../utils/utils.js";
 import {setCity} from "../../../store/actions.js";
 import {fetchOffersList} from "../../../store/api-actions.js";
+import {
+  getOffers,
+  getOffersStatus
+} from "../../../store/selectors/load-selectors.js";
+import {
+  setCurrentCityName,
+  setCurrentSorting
+} from "../../../store/selectors/set-selectors.js";
 
 const MainPage = ({
   offersInCurrentCity,
@@ -91,15 +99,17 @@ MainPage.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offersInCurrentCity: state.offers.filter(
-      (offer) => offer.city.name === state.currentCityName
+  offersInCurrentCity: getOffers(state).filter(
+      (offer) => offer.city.name === setCurrentCityName(state)
   ),
-  currentCityName: state.currentCityName,
+  currentCityName: setCurrentCityName(state),
   sortedOffers: sortOffers(
-      state.offers.filter((offer) => offer.city.name === state.currentCityName),
-      state.activeSorting
+      getOffers(state).filter(
+          (offer) => offer.city.name === setCurrentCityName(state)
+      ),
+      setCurrentSorting(state)
   ),
-  isOffersLoaded: state.isOffersLoaded
+  isOffersLoaded: getOffersStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => {

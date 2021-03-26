@@ -58,7 +58,7 @@ const Map = ({offers, currentOfferId}) => {
     return () => {
       mapRef.current.remove();
     };
-  }, [baseCoords, offers, currentOfferId]);
+  }, [baseCoords, currentOfferId]);
 
   return (
     <div
@@ -66,7 +66,6 @@ const Map = ({offers, currentOfferId}) => {
       style={{
         height: `538px`
       }}
-      ref={mapRef}
     ></div>
   );
 };

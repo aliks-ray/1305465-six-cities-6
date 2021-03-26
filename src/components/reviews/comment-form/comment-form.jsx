@@ -142,11 +142,11 @@ CommentForm.propTypes = {
   submitCommentOnServer: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  submitCommentOnServer(id, review) {
-    dispatch(addNewReviews(id, review));
-  }
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitCommentOnServer: (id, review) => dispatch(addNewReviews(id, review))
+  };
+};
 
 const mapStateToProps = ({offer}) => ({
   offer
