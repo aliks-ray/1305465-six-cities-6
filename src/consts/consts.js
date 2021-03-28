@@ -23,3 +23,8 @@ export const AuthorizationStatus = {
   AUTH: `AUTH`,
   NO_AUTH: `NO_AUTH`
 };
+
+export const FavoriteStatus = {
+  REMOVE: 0,
+  ADD: 1
+};

@@ -5,7 +5,7 @@ import {composeWithDevTools} from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import {Provider} from "react-redux";
 import App from "./components/app/app.jsx";
-import {reducer} from "./store/reducers/reducer.js";
+import rootReducer from "./store/reducers/root-reducer.js";
 import {createAPI} from "./api/api.js";
 import {AuthorizationStatus} from "./consts/consts.js";
 import {requireAuthorization} from "./store/actions.js";
@@ -17,7 +17,7 @@ export const api = createAPI(() =>
 );
 
 const store = createStore(
-    reducer,
+    rootReducer,
     composeWithDevTools(
         applyMiddleware(thunk.withExtraArgument(api)),
         applyMiddleware(redirect)
@@ -29,7 +29,7 @@ store.dispatch(fetchOffersList());
 
 ReactDOM.render(
     <Provider store={store}>
-      <App offers={[]} />
+      <App />
     </Provider>,
     document.querySelector(`#root`)
 );

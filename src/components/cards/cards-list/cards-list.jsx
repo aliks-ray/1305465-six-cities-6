@@ -35,4 +35,4 @@ CardsList.propTypes = {
   onMouseLeave: PropTypes.func
 };
 
-export default CardsList;
+export default React.memo(CardsList);

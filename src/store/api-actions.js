@@ -3,10 +3,12 @@ import {
   loadOffer,
   loadNearby,
   loadReviews,
+  loadFavorites,
   requireAuthorization,
   setAuthInfo,
   redirectToRoute,
-  addReviews
+  addReviews,
+  updateFavoriteStatus
 } from "./actions.js";
 import {AuthorizationStatus} from "../consts/consts.js";
 import {adaptAuthData, adaptReviewData} from "../api/adapter/adapter.js";
@@ -35,6 +37,18 @@ export const fetchReviews = (id) => (dispatch, _getState, api) =>
   api.get(`/comments/${id}`).then(({data}) => {
     return dispatch(loadReviews(data));
   });
+
+export const fetchFavorites = () => (dispatch, _getState, api) =>
+  api.get(`/favorite`).then(({data}) => dispatch(loadFavorites(data)));
+
+export const updateFavoriteOfferStatus = (id, status) => (
+    dispatch,
+    _getState,
+    api
+) =>
+  api
+    .post(`/favorite/${id}/${status}`)
+    .then((data) => dispatch(updateFavoriteStatus(data)));
 
 export const addNewReviews = (id, review) => (dispatch, _getState, api) =>
   api

@@ -4,46 +4,24 @@ import {
   adaptOfferData,
   adaptReviewsData
 } from "../../api/adapter/adapter.js";
-import {
-  Cities,
-  SortingTypes,
-  AuthorizationStatus
-} from "../../consts/consts.js";
+import {updateOfferInList} from "../../utils/utils.js";
 
 const initialState = {
-  currentCityName: Cities.PARIS,
-  authorizationStatus: AuthorizationStatus.NO_AUTH,
   isOffersLoaded: false,
   offers: [],
-  activeSorting: SortingTypes.POPULAR,
-  authInfo: {},
   offer: {},
   reviews: [],
   nearbyOffers: [],
+  favoriteOffers: [],
   onLoadOfferData: false,
   onLoadNearbyData: false,
   onLoadReviewsData: false,
   onLoadReviewsFormData: false,
-  reviewsFormError: ``
+  onLoadFavoriteData: false
 };
 
-const reducer = (state = initialState, action) => {
+const loadReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.SET_CITY:
-      return {
-        ...state,
-        currentCityName: action.payload
-      };
-    case ActionType.CHANGE_SORTING:
-      return {
-        ...state,
-        activeSorting: action.payload
-      };
-    case ActionType.REQUIRED_AUTHORIZATION:
-      return {
-        ...state,
-        authorizationStatus: action.payload
-      };
     case ActionType.LOAD_OFFERS:
       return {
         ...state,
@@ -68,22 +46,20 @@ const reducer = (state = initialState, action) => {
         reviews: adaptReviewsData(action.payload),
         onLoadReviewsData: true
       };
-    case ActionType.ADD_REVIEWS:
+    case ActionType.LOAD_FAVORITES:
       return {
         ...state,
-        reviews: action.payload,
-        onLoadReviewsFormData: true,
-        reviewsFormError: ``
+        favoriteOffers: adaptOffersData(action.payload),
+        onLoadFavoriteData: true
       };
-    case ActionType.SET_AUTH_INFO: {
+    case ActionType.UPDATE_FAVORITE_OFFER_STATUS:
       return {
         ...state,
-        authInfo: action.payload
+        favoriteOffers: updateOfferInList(action.payload, state.offers)
       };
-    }
     default:
       return state;
   }
 };
 
-export {reducer};
+export default loadReducer;

@@ -5,6 +5,8 @@ export const ActionType = {
   LOAD_NEARBY: `offer/loadNearby`,
   LOAD_OFFER: `offer/loadOffer`,
   LOAD_REVIEWS: `offer/loadReviews`,
+  LOAD_FAVORITES: `offer/loadFavorites`,
+  UPDATE_FAVORITE_STATUS: `offer/updateFavoriteStatus`,
   ADD_REVIEWS: `offer/addReviews`,
   SET_AUTH_INFO: `user/setAuthInfo`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
@@ -39,6 +41,16 @@ export const loadNearby = (offers) => ({
 export const loadReviews = (reviews) => ({
   type: ActionType.LOAD_REVIEWS,
   payload: reviews
+});
+
+export const loadFavorites = (offers) => ({
+  type: ActionType.LOAD_FAVORITES,
+  payload: offers
+});
+
+export const updateFavoriteStatus = (offer) => ({
+  type: ActionType.UPDATE_FAVORITE_STATUS,
+  payload: offer
 });
 
 export const addReviews = (response) => ({

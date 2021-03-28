@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Header from "../../layout/header/header.jsx";
 import CommentForm from "../../reviews/comment-form/comment-form.jsx";
 import PropTypes from "prop-types";
-import {useParams} from "react-router-dom";
+import {useParams, useHistory} from "react-router-dom";
 import {offerType, reviewType} from "../../../prop-types/prop-types.js";
 import Map from "../../map/map.jsx";
 import ReviewsList from "../../reviews/reviews-list/reviews-list.jsx";
@@ -13,9 +13,22 @@ import {connect} from "react-redux";
 import {
   fetchOffer,
   fetchReviews,
-  fetchNearby
+  fetchNearby,
+  updateFavoriteOfferStatus
 } from "../../../store/api-actions.js";
-import {AuthorizationStatus} from "../../../consts/consts.js";
+import {AuthorizationStatus, FavoriteStatus} from "../../../consts/consts.js";
+import {
+  getOffer,
+  getOfferStatus,
+  getReviews,
+  getReviewsStatus,
+  getNearbyOffers,
+  getNearbyOffersStatus
+} from "../../../store/selectors/load-selectors.js";
+import {
+  getAuthorizationStatus,
+  getAuthInfo
+} from "../../../store/selectors/user-selectors.js";
 import ImagesList from "./images-list.jsx";
 import GoodsList from "./goods-list.jsx";
 import HostInfo from "./host-info.jsx";
@@ -31,10 +44,14 @@ const OfferPage = ({
   onLoadNearbyData,
   reviews,
   onLoadReviews,
-  onLoadReviewsData
+  onLoadReviewsData,
+  onFavoriteButtonClick
 }) => {
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
+  const getUpdatedFavoriteStatus = (isCurrentlyFavorite) =>
+    isCurrentlyFavorite ? FavoriteStatus.REMOVE : FavoriteStatus.ADD;
   const {id} = useParams();
+  const history = useHistory();
   const [currentOfferId, setCurrentOfferId] = useState(null);
   const mapMargin = {
     marginBottom: `50px`
@@ -45,6 +62,14 @@ const OfferPage = ({
   };
   const handleMouseLeave = () => {
     setCurrentOfferId(null);
+  };
+
+  const handleFavoriteButtonClick = () => {
+    if (isUserAuthorized) {
+      onFavoriteButtonClick(id, getUpdatedFavoriteStatus(offer.isFavorite));
+    } else {
+      history.push(`/login`);
+    }
   };
 
   useEffect(() => {
@@ -63,7 +88,7 @@ const OfferPage = ({
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
-            <ImagesList offer={offer} />
+            <ImagesList hotelImages={offer.hotelImages} />
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
@@ -79,6 +104,7 @@ const OfferPage = ({
                 <button
                   className="property__bookmark-button button"
                   type="button"
+                  onClick={handleFavoriteButtonClick}
                 >
                   <svg
                     className="property__bookmark-icon"
@@ -116,11 +142,11 @@ const OfferPage = ({
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
-                <GoodsList offer={offer} />
+                <GoodsList goods={offer.goods} />
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
-                <HostInfo offer={offer} />
+                <HostInfo host={offer.host} />
                 <div className="property__description">
                   <p className="property__text">{offer.description}</p>
                 </div>
@@ -180,25 +206,27 @@ OfferPage.propTypes = {
     id: PropTypes.number,
     isPro: PropTypes.bool,
     name: PropTypes.string
-  })
+  }),
+  onFavoriteButtonClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  reviews: state.reviews,
-  authorizationStatus: state.authorizationStatus,
-  authInfo: state.authInfo,
-  offer: state.offer,
-  onLoadOfferData: state.onLoadOfferData,
-  nearbyOffers: state.nearbyOffers,
-  onLoadNearbyData: state.onLoadNearbyData,
-  onLoadReviewsData: state.onLoadReviewsData
+  authorizationStatus: getAuthorizationStatus(state),
+  authInfo: getAuthInfo(state),
+  offer: getOffer(state),
+  onLoadOfferData: getOfferStatus(state),
+  reviews: getReviews(state),
+  onLoadReviewsData: getReviewsStatus(state),
+  nearbyOffers: getNearbyOffers(state),
+  onLoadNearbyData: getNearbyOffersStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadOffer: (id) => dispatch(fetchOffer(id)),
   onLoadNearby: (id) => dispatch(fetchNearby(id)),
-  onLoadReviews: (id) => dispatch(fetchReviews(id))
+  onLoadReviews: (id) => dispatch(fetchReviews(id)),
+  onFavoriteButtonClick: (id, favoriteStatus) =>
+    dispatch(updateFavoriteOfferStatus(id, favoriteStatus))
 });
 
-export {OfferPage};
 export default connect(mapStateToProps, mapDispatchToProps)(OfferPage);
