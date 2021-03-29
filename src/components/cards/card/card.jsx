@@ -82,7 +82,9 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
           </div>
           <button
             className={`${
-              offer.isFavorite ? `place-card__bookmark-button--active` : ``
+              isUserAuthorized && authInfo.id && offer.isFavorite
+                ? `place-card__bookmark-button--active`
+                : ``
             } place-card__bookmark-button button`}
             type="button"
             onClick={handleFavoriteButtonClick}

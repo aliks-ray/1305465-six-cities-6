@@ -101,7 +101,9 @@ const OfferPage = ({
                 <h1 className="property__name">{offer.title}</h1>
                 <button
                   className={`${
-                    offer.isFavorite ? `property__bookmark-button--active` : ``
+                    isUserAuthorized && authInfo.id && offer.isFavorite
+                      ? `property__bookmark-button--active`
+                      : ``
                   } property__bookmark-button button`}
                   type="button"
                   onClick={handleFavoriteButtonClick}
