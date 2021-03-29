@@ -28,4 +28,4 @@ HostInfo.propTypes = {
   })
 };
 
-export default HostInfo;
+export default React.memo(HostInfo);
