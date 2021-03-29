@@ -14,7 +14,7 @@ import {updateFavoriteOfferStatus} from "../../../store/api-actions.js";
 
 const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
   const dispatch = useDispatch();
-  const {authorizationStatus} = useSelector((state) => state.USER);
+  const {authInfo, authorizationStatus} = useSelector((state) => state.USER);
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
 
   const checkPremium = () =>
@@ -24,14 +24,6 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
       </div>
     );
 
-  const checkFavorite = () => {
-    let buttonFavoriteClasses = [`place-card__bookmark-button`, `button`];
-    if (offer.isFavorite) {
-      buttonFavoriteClasses.push(`place-card__bookmark-button--active`);
-    }
-    return buttonFavoriteClasses.join(` `);
-  };
-
   const getUpdatedFavoriteStatus = (isCurrentlyFavorite) =>
     isCurrentlyFavorite ? FavoriteStatus.REMOVE : FavoriteStatus.ADD;
 
@@ -40,7 +32,7 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
   const history = useHistory();
 
   const handleFavoriteButtonClick = () => {
-    if (isUserAuthorized) {
+    if (isUserAuthorized && authInfo.id) {
       dispatch(
           updateFavoriteOfferStatus(
               offer.id,
@@ -89,7 +81,11 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
           <button
-            className={checkFavorite()}
+            className={`${
+              isUserAuthorized && authInfo.id && offer.isFavorite
+                ? `place-card__bookmark-button--active`
+                : ``
+            } place-card__bookmark-button button`}
             type="button"
             onClick={handleFavoriteButtonClick}
           >

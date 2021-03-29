@@ -9,7 +9,7 @@ import ReviewsList from "../../reviews/reviews-list/reviews-list.jsx";
 import CardsList from "../../cards/cards-list/cards-list.jsx";
 import LoadingScreen from "../../layout/loading-screen/loading-screen.jsx";
 import {getRating} from "../../../utils/utils.js";
-import {connect} from "react-redux";
+import {connect, useSelector} from "react-redux";
 import {
   fetchOffer,
   fetchReviews,
@@ -25,17 +25,11 @@ import {
   getNearbyOffers,
   getNearbyOffersStatus
 } from "../../../store/selectors/load-selectors.js";
-import {
-  getAuthorizationStatus,
-  getAuthInfo
-} from "../../../store/selectors/user-selectors.js";
 import ImagesList from "./images-list.jsx";
 import GoodsList from "./goods-list.jsx";
 import HostInfo from "./host-info.jsx";
 
 const OfferPage = ({
-  authorizationStatus,
-  authInfo,
   offer,
   onLoadOffer,
   onLoadOfferData,
@@ -47,6 +41,7 @@ const OfferPage = ({
   onLoadReviewsData,
   onFavoriteButtonClick
 }) => {
+  const {authInfo, authorizationStatus} = useSelector((state) => state.USER);
   const isUserAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
   const getUpdatedFavoriteStatus = (isCurrentlyFavorite) =>
     isCurrentlyFavorite ? FavoriteStatus.REMOVE : FavoriteStatus.ADD;
@@ -65,8 +60,11 @@ const OfferPage = ({
   };
 
   const handleFavoriteButtonClick = () => {
-    if (isUserAuthorized) {
-      onFavoriteButtonClick(id, getUpdatedFavoriteStatus(offer.isFavorite));
+    if (isUserAuthorized && authInfo.id) {
+      onFavoriteButtonClick(
+          offer.id,
+          getUpdatedFavoriteStatus(offer.isFavorite)
+      );
     } else {
       history.push(`/login`);
     }
@@ -102,7 +100,11 @@ const OfferPage = ({
               <div className="property__name-wrapper">
                 <h1 className="property__name">{offer.title}</h1>
                 <button
-                  className="property__bookmark-button button"
+                  className={`${
+                    isUserAuthorized && authInfo.id && offer.isFavorite
+                      ? `property__bookmark-button--active`
+                      : ``
+                  } property__bookmark-button button`}
                   type="button"
                   onClick={handleFavoriteButtonClick}
                 >
@@ -189,7 +191,6 @@ const OfferPage = ({
 };
 
 OfferPage.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
   reviews: PropTypes.arrayOf(reviewType).isRequired,
   onLoadReviews: PropTypes.func.isRequired,
   onLoadOffer: PropTypes.func.isRequired,
@@ -200,19 +201,10 @@ OfferPage.propTypes = {
   nearbyOffers: PropTypes.arrayOf(offerType).isRequired,
   onLoadReviewsData: PropTypes.bool.isRequired,
   onAddReviews: PropTypes.func,
-  authInfo: PropTypes.shape({
-    avatarUrl: PropTypes.string,
-    email: PropTypes.string,
-    id: PropTypes.number,
-    isPro: PropTypes.bool,
-    name: PropTypes.string
-  }),
   onFavoriteButtonClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-  authInfo: getAuthInfo(state),
   offer: getOffer(state),
   onLoadOfferData: getOfferStatus(state),
   reviews: getReviews(state),

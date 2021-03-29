@@ -48,7 +48,10 @@ export const updateFavoriteOfferStatus = (id, status) => (
 ) =>
   api
     .post(`/favorite/${id}/${status}`)
-    .then((data) => dispatch(updateFavoriteStatus(data)));
+    .then((data) => dispatch(updateFavoriteStatus(data)))
+    .then(() => dispatch(fetchOffer(id)))
+    .then((data) => dispatch(fetchFavorites(data)))
+    .then((data) => dispatch(fetchOffersList(data)));
 
 export const addNewReviews = (id, review) => (dispatch, _getState, api) =>
   api

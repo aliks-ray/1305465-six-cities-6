@@ -15,4 +15,4 @@ ImagesList.propTypes = {
   hotelImages: PropTypes.arrayOf(PropTypes.string.isRequired)
 };
 
-export default ImagesList;
+export default React.memo(ImagesList);

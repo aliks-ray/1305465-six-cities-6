@@ -15,4 +15,4 @@ GoodsList.propTypes = {
   goods: PropTypes.arrayOf(PropTypes.string.isRequired)
 };
 
-export default GoodsList;
+export default React.memo(GoodsList);
