@@ -1,19 +1,22 @@
 import React from "react";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addNewReviews} from "../../../store/api-actions.js";
-import {PropTypes} from "prop-types";
-import {offerType} from "../../../prop-types/prop-types.js";
 
-const CommentForm = ({offer, submitCommentOnServer}) => {
+const CommentForm = () => {
+  const dispatch = useDispatch();
+  const {offer} = useSelector((state) => state.DATA_LOAD);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     const currentRating = formData.get(`rating`);
     const reviewComment = formData.get(`comment`);
-    submitCommentOnServer(offer.id, {
-      rating: currentRating,
-      comment: reviewComment
-    });
+    dispatch(
+        addNewReviews(offer.id, {
+          rating: currentRating,
+          comment: reviewComment
+        })
+    );
   };
 
   return (
@@ -137,19 +140,4 @@ const CommentForm = ({offer, submitCommentOnServer}) => {
   );
 };
 
-CommentForm.propTypes = {
-  offer: offerType.isRequired,
-  submitCommentOnServer: PropTypes.func.isRequired
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    submitCommentOnServer: (id, review) => dispatch(addNewReviews(id, review))
-  };
-};
-
-const mapStateToProps = ({offer}) => ({
-  offer
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
+export default CommentForm;

@@ -16,7 +16,6 @@ const initialState = {
   onLoadOfferData: false,
   onLoadNearbyData: false,
   onLoadReviewsData: false,
-  onLoadReviewsFormData: false,
   onLoadFavoriteData: false
 };
 

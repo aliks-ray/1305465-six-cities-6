@@ -1,10 +1,13 @@
 import React, {useEffect, useRef} from "react";
 import PropTypes from "prop-types";
 import {offerType} from "../../prop-types/prop-types.js";
+import {MapSettings} from "../../consts/consts.js";
 import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const Map = ({offers, currentOfferId}) => {
+const Map = ({offers, currentOfferId, mapType, currentOffer}) => {
+  const ifPageNotMain = mapType === MapSettings.OFFER;
+
   const mapRef = useRef();
 
   const baseZoom = offers[0].city.location.zoom;
@@ -13,52 +16,102 @@ const Map = ({offers, currentOfferId}) => {
     lng: offers[0].city.location.lng
   };
 
-  useEffect(() => {
-    mapRef.current = leaflet.map(`map`, {
-      center: {
-        lat: baseCoords.lat,
-        lng: baseCoords.lng
-      },
-      zoom: baseZoom,
-      zoomControl: false,
-      marker: true
-    });
-
-    leaflet
-      .tileLayer(
-          `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
-          {
-            attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
-          }
-      )
-      .addTo(mapRef.current);
-
-    offers.forEach((offer) => {
-      const customIcon = leaflet.icon({
-        iconUrl: `${
-          currentOfferId !== offer.id ? `./img/pin.svg` : `./img/pin-active.svg`
-        }`,
-        iconSize: [30, 30]
+  if (ifPageNotMain) {
+    useEffect(() => {
+      mapRef.current = leaflet.map(`map`, {
+        center: {
+          lat: baseCoords.lat,
+          lng: baseCoords.lng
+        },
+        zoom: baseZoom,
+        zoomControl: false,
+        marker: true
       });
 
       leaflet
-        .marker(
+        .tileLayer(
+            `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
             {
-              lat: offer.location.lat,
-              lng: offer.location.lng
-            },
-            {
-              icon: customIcon
+              attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
             }
         )
-        .addTo(mapRef.current)
-        .bindPopup(offer.title);
-    });
+        .addTo(mapRef.current);
+      offers.push(currentOffer);
+      offers.forEach((offer) => {
+        const customIcon = leaflet.icon({
+          iconUrl: `${
+            currentOffer.id !== offer.id
+              ? `./img/pin.svg`
+              : `./img/pin-active.svg`
+          }`,
+          iconSize: [30, 30]
+        });
+        leaflet
+          .marker(
+              {
+                lat: offer.location.lat,
+                lng: offer.location.lng
+              },
+              {
+                icon: customIcon
+              }
+          )
+          .addTo(mapRef.current)
+          .bindPopup(offer.title);
+      });
 
-    return () => {
-      mapRef.current.remove();
-    };
-  }, [baseCoords, currentOfferId]);
+      return () => {
+        mapRef.current.remove();
+      };
+    }, [baseCoords]);
+  } else {
+    useEffect(() => {
+      mapRef.current = leaflet.map(`map`, {
+        center: {
+          lat: baseCoords.lat,
+          lng: baseCoords.lng
+        },
+        zoom: baseZoom,
+        zoomControl: false,
+        marker: true
+      });
+
+      leaflet
+        .tileLayer(
+            `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
+            {
+              attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
+            }
+        )
+        .addTo(mapRef.current);
+      offers.forEach((offer) => {
+        const customIcon = leaflet.icon({
+          iconUrl: `${
+            currentOfferId !== offer.id
+              ? `./img/pin.svg`
+              : `./img/pin-active.svg`
+          }`,
+          iconSize: [30, 30]
+        });
+        leaflet
+          .marker(
+              {
+                lat: offer.location.lat,
+                lng: offer.location.lng
+              },
+              {
+                icon: customIcon
+              }
+          )
+          .addTo(mapRef.current)
+          .bindPopup(offer.title);
+      });
+
+      return () => {
+        mapRef.current.remove();
+      };
+    }, [baseCoords, currentOfferId]);
+  }
 
   return (
     <div
@@ -72,7 +125,9 @@ const Map = ({offers, currentOfferId}) => {
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(offerType).isRequired,
-  currentOfferId: PropTypes.oneOfType([PropTypes.bool, PropTypes.number])
+  currentOfferId: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  mapType: PropTypes.string.isRequired,
+  currentOffer: offerType
 };
 
 export default Map;

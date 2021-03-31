@@ -3,6 +3,11 @@ export const CardSettings = {
   MAIN: `main`
 };
 
+export const MapSettings = {
+  OFFER: `offer`,
+  MAIN: `main`
+};
+
 export const Cities = {
   PARIS: `Paris`,
   AMSTERDAM: `Amsterdam`,

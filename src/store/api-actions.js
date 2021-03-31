@@ -78,3 +78,8 @@ export const login = ({email, password}) => (dispatch, _getState, api) =>
     .then((data) => adaptAuthData(data))
     .then((data) => dispatch(setAuthInfo(data)))
     .then(() => dispatch(redirectToRoute(`/`)));
+
+export const logout = () => (dispatch, _getState, api) =>
+  api
+    .get(`/logout`)
+    .then(() => dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)));
