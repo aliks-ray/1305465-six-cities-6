@@ -6,7 +6,7 @@ import {
 } from "../../api/adapter/adapter.js";
 import {updateOfferInList} from "../../utils/utils.js";
 
-const initialState = {
+export const initialState = {
   isOffersLoaded: false,
   offers: [],
   offer: {},

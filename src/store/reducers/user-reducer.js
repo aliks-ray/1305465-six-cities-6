@@ -1,7 +1,7 @@
 import {ActionType} from "../actions.js";
 import {AuthorizationStatus} from "../../consts/consts.js";
 
-const initialState = {
+export const initialState = {
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   authInfo: {}
 };

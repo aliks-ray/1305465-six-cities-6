@@ -8,6 +8,13 @@ export const MapSettings = {
   MAIN: `main`
 };
 
+export const MAX_RATING = 5;
+
+export const ReviewSettings = {
+  MIN_LENGTH: `50`,
+  MAX_LENGTH: `300`
+};
+
 export const Cities = {
   PARIS: `Paris`,
   AMSTERDAM: `Amsterdam`,

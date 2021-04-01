@@ -35,7 +35,8 @@ export const fetchNearby = (id) => (dispatch, _getState, api) =>
 
 export const fetchReviews = (id) => (dispatch, _getState, api) =>
   api.get(`/comments/${id}`).then(({data}) => {
-    return dispatch(loadReviews(data));
+    const sortedComments = data.reverse(sortDate);
+    dispatch(loadReviews(sortedComments));
   });
 
 export const fetchFavorites = () => (dispatch, _getState, api) =>
@@ -57,8 +58,9 @@ export const addNewReviews = (id, review) => (dispatch, _getState, api) =>
   api
     .post(`/comments/${id}`, review)
     .then(({data}) => {
-      const sortedComments = data.sort(sortDate);
+      const sortedComments = data.reverse(sortDate);
       dispatch(addReviews(sortedComments.map((item) => adaptReviewData(item))));
+      dispatch(loadReviews(sortedComments));
     })
     .catch(() => {});
 
@@ -66,7 +68,9 @@ export const checkAuth = () => (dispatch, _getState, api) =>
   api
     .get(`/login`)
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
-    .catch(() => {});
+    .catch(() => {
+      throw new Error(`User is not authorized!`);
+    });
 
 export const login = ({email, password}) => (dispatch, _getState, api) =>
   api
@@ -78,8 +82,3 @@ export const login = ({email, password}) => (dispatch, _getState, api) =>
     .then((data) => adaptAuthData(data))
     .then((data) => dispatch(setAuthInfo(data)))
     .then(() => dispatch(redirectToRoute(`/`)));
-
-export const logout = () => (dispatch, _getState, api) =>
-  api
-    .get(`/logout`)
-    .then(() => dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)));
