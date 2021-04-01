@@ -6,7 +6,11 @@ import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 const Map = ({offers, currentOfferId, mapType, currentOffer}) => {
-  const ifPageNotMain = mapType === MapSettings.OFFER;
+  const isNotMainPage = mapType === MapSettings.OFFER;
+  if (isNotMainPage) {
+    offers.push(currentOffer);
+    currentOfferId = currentOffer.id;
+  }
 
   const mapRef = useRef();
 
@@ -16,102 +20,50 @@ const Map = ({offers, currentOfferId, mapType, currentOffer}) => {
     lng: offers[0].city.location.lng
   };
 
-  if (ifPageNotMain) {
-    useEffect(() => {
-      mapRef.current = leaflet.map(`map`, {
-        center: {
-          lat: baseCoords.lat,
-          lng: baseCoords.lng
-        },
-        zoom: baseZoom,
-        zoomControl: false,
-        marker: true
-      });
+  useEffect(() => {
+    mapRef.current = leaflet.map(`map`, {
+      center: {
+        lat: baseCoords.lat,
+        lng: baseCoords.lng
+      },
+      zoom: baseZoom,
+      zoomControl: false,
+      marker: true
+    });
 
+    leaflet
+      .tileLayer(
+          `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
+          {
+            attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
+          }
+      )
+      .addTo(mapRef.current);
+    offers.forEach((offer) => {
+      const customIcon = leaflet.icon({
+        iconUrl: `${
+          currentOfferId !== offer.id ? `./img/pin.svg` : `./img/pin-active.svg`
+        }`,
+        iconSize: [30, 30]
+      });
       leaflet
-        .tileLayer(
-            `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
+        .marker(
             {
-              attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
+              lat: offer.location.lat,
+              lng: offer.location.lng
+            },
+            {
+              icon: customIcon
             }
         )
-        .addTo(mapRef.current);
-      offers.push(currentOffer);
-      offers.forEach((offer) => {
-        const customIcon = leaflet.icon({
-          iconUrl: `${
-            currentOffer.id !== offer.id
-              ? `./img/pin.svg`
-              : `./img/pin-active.svg`
-          }`,
-          iconSize: [30, 30]
-        });
-        leaflet
-          .marker(
-              {
-                lat: offer.location.lat,
-                lng: offer.location.lng
-              },
-              {
-                icon: customIcon
-              }
-          )
-          .addTo(mapRef.current)
-          .bindPopup(offer.title);
-      });
+        .addTo(mapRef.current)
+        .bindPopup(offer.title);
+    });
 
-      return () => {
-        mapRef.current.remove();
-      };
-    }, [baseCoords]);
-  } else {
-    useEffect(() => {
-      mapRef.current = leaflet.map(`map`, {
-        center: {
-          lat: baseCoords.lat,
-          lng: baseCoords.lng
-        },
-        zoom: baseZoom,
-        zoomControl: false,
-        marker: true
-      });
-
-      leaflet
-        .tileLayer(
-            `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`,
-            {
-              attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
-            }
-        )
-        .addTo(mapRef.current);
-      offers.forEach((offer) => {
-        const customIcon = leaflet.icon({
-          iconUrl: `${
-            currentOfferId !== offer.id
-              ? `./img/pin.svg`
-              : `./img/pin-active.svg`
-          }`,
-          iconSize: [30, 30]
-        });
-        leaflet
-          .marker(
-              {
-                lat: offer.location.lat,
-                lng: offer.location.lng
-              },
-              {
-                icon: customIcon
-              }
-          )
-          .addTo(mapRef.current)
-          .bindPopup(offer.title);
-      });
-
-      return () => {
-        mapRef.current.remove();
-      };
-    }, [baseCoords, currentOfferId]);
-  }
+    return () => {
+      mapRef.current.remove();
+    };
+  }, [baseCoords, currentOfferId]);
 
   return (
     <div

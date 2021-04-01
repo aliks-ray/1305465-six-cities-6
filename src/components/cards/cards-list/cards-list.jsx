@@ -6,12 +6,12 @@ import {CardSettings} from "../../../consts/consts.js";
 import classNames from "classnames";
 
 const CardsList = ({offers, cardType, onMouseEnter, onMouseLeave}) => {
-  const ifPageNotMain = cardType === CardSettings.NEAR;
+  const isNotMainPage = cardType === CardSettings.NEAR;
 
   return (
     <div
       className={classNames(`places__list cities__places-list tabs__content`, {
-        "places__list near-places__list": ifPageNotMain
+        "places__list near-places__list": isNotMainPage
       })}
     >
       {offers.map((offer) => (
