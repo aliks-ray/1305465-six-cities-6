@@ -9,7 +9,6 @@ import rootReducer from "./store/reducers/root-reducer.js";
 import {createAPI} from "./api/api.js";
 import {AuthorizationStatus} from "./consts/consts.js";
 import {requireAuthorization} from "./store/actions.js";
-import {checkAuth, fetchOffersList} from "./store/api-actions.js";
 import {redirect} from "./store/redirect.js";
 
 export const api = createAPI(() =>
@@ -23,9 +22,6 @@ const store = createStore(
         applyMiddleware(redirect)
     )
 );
-
-store.dispatch(checkAuth());
-store.dispatch(fetchOffersList());
 
 ReactDOM.render(
     <Provider store={store}>
