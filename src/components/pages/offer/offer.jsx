@@ -158,7 +158,7 @@ const OfferPage = ({
                   Reviews &middot;
                   <span className="reviews__amount">{reviews.length}</span>
                 </h2>
-                <ReviewsList reviews={reviews} />
+                <ReviewsList reviews={reviews.slice(0, 10)} />
                 {isUserAuthorized && authInfo.id ? (
                   <CommentForm offer={offer} />
                 ) : (
@@ -168,7 +168,12 @@ const OfferPage = ({
             </div>
           </div>
           <section className="map" style={mapMargin}>
-            <Map offers={nearbyOffers} currentOfferId={currentOfferId} />
+            <Map
+              offers={nearbyOffers}
+              currentOfferId={currentOfferId}
+              currentOffer={offer}
+              mapType="offer"
+            />
           </section>
         </section>
 
@@ -178,7 +183,7 @@ const OfferPage = ({
               Other places in the neighbourhood
             </h2>
             <CardsList
-              offers={nearbyOffers}
+              offers={nearbyOffers.slice(0, 3)}
               cardType="near"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}

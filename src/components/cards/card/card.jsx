@@ -27,7 +27,7 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
   const getUpdatedFavoriteStatus = (isCurrentlyFavorite) =>
     isCurrentlyFavorite ? FavoriteStatus.REMOVE : FavoriteStatus.ADD;
 
-  const ifPageNotMain = cardType === CardSettings.NEAR;
+  const isNotMainPage = cardType === CardSettings.NEAR;
 
   const history = useHistory();
 
@@ -47,7 +47,7 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
   return (
     <article
       className={classNames(`place-card cities__place-card`, {
-        "place-card near-places__card": ifPageNotMain
+        "place-card near-places__card": isNotMainPage
       })}
       onMouseEnter={() => onMouseEnter(offer)}
       onMouseLeave={() => onMouseLeave()}
@@ -60,7 +60,7 @@ const Card = ({offer, cardType, onMouseEnter, onMouseLeave}) => {
         className={classNames(
             `place-card__image-wrapper cities__image-wrapper`,
             {
-              "place-card__image-wrapper near-places__image-wrapper": ifPageNotMain
+              "place-card__image-wrapper near-places__image-wrapper": isNotMainPage
             }
         )}
       >

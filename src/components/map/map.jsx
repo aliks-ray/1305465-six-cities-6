@@ -1,10 +1,17 @@
 import React, {useEffect, useRef} from "react";
 import PropTypes from "prop-types";
 import {offerType} from "../../prop-types/prop-types.js";
+import {MapSettings} from "../../consts/consts.js";
 import leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const Map = ({offers, currentOfferId}) => {
+const Map = ({offers, currentOfferId, mapType, currentOffer}) => {
+  const isNotMainPage = mapType === MapSettings.OFFER;
+  if (isNotMainPage) {
+    offers.push(currentOffer);
+    currentOfferId = currentOffer.id;
+  }
+
   const mapRef = useRef();
 
   const baseZoom = offers[0].city.location.zoom;
@@ -32,7 +39,6 @@ const Map = ({offers, currentOfferId}) => {
           }
       )
       .addTo(mapRef.current);
-
     offers.forEach((offer) => {
       const customIcon = leaflet.icon({
         iconUrl: `${
@@ -40,7 +46,6 @@ const Map = ({offers, currentOfferId}) => {
         }`,
         iconSize: [30, 30]
       });
-
       leaflet
         .marker(
             {
@@ -72,7 +77,9 @@ const Map = ({offers, currentOfferId}) => {
 
 Map.propTypes = {
   offers: PropTypes.arrayOf(offerType).isRequired,
-  currentOfferId: PropTypes.oneOfType([PropTypes.bool, PropTypes.number])
+  currentOfferId: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  mapType: PropTypes.string.isRequired,
+  currentOffer: offerType
 };
 
 export default Map;

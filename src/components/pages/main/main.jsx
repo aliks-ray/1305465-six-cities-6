@@ -87,7 +87,11 @@ const MainPage = ({
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <Map offers={sortedOffers} currentOfferId={currentOfferId} />
+                  <Map
+                    offers={sortedOffers}
+                    currentOfferId={currentOfferId}
+                    mapType="main"
+                  />
                 </section>
               </div>
             </div>

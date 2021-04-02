@@ -1,7 +1,7 @@
 import {ActionType} from "../actions.js";
 import {Cities, SortingTypes} from "../../consts/consts.js";
 
-const initialState = {
+export const initialState = {
   currentCityName: Cities.PARIS,
   activeSorting: SortingTypes.POPULAR,
   reviews: [],

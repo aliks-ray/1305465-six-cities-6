@@ -1,155 +1,120 @@
-import React from "react";
-import {connect} from "react-redux";
+import React, {useState, useRef} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {addNewReviews} from "../../../store/api-actions.js";
-import {PropTypes} from "prop-types";
-import {offerType} from "../../../prop-types/prop-types.js";
+import {MAX_RATING, ReviewSettings} from "../../../consts/consts.js";
+import RatingItem from "../rating-item/rating-item.jsx";
 
-const CommentForm = ({offer, submitCommentOnServer}) => {
+const CommentForm = () => {
+  const dispatch = useDispatch();
+  const {offer} = useSelector((state) => state.DATA_LOAD);
+
+  const error = useRef();
+
+  const [userForm, setUserForm] = useState({
+    rating: null,
+    comment: ``
+  });
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    const formData = new FormData(evt.target);
-    const currentRating = formData.get(`rating`);
-    const reviewComment = formData.get(`comment`);
-    submitCommentOnServer(offer.id, {
-      rating: currentRating,
-      comment: reviewComment
+    setIsLoading(true);
+    dispatch(
+        addNewReviews(offer.id, {
+          rating: userForm.rating,
+          comment: userForm.comment
+        })
+    )
+      .then(() => {
+        setIsLoading(false);
+        handleReset();
+      })
+      .catch(() => {
+        setIsLoading(false);
+        error.current.style.display = `block`;
+      });
+  };
+
+  const handleReset = () => {
+    document.getElementById(`userReviewForm`).reset();
+    setUserForm({
+      rating: null,
+      comment: ``
     });
   };
 
+  const handleRatingChange = (evt) => {
+    const rating = evt.target.value;
+    setUserForm((state) => ({...state, rating}));
+  };
+
+  const handleTextareaChange = (evt) => {
+    evt.preventDefault();
+    const {value} = evt.target;
+    setUserForm({...userForm, comment: value});
+  };
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="reviews__form form"
-      action="#"
-      method="post"
-    >
-      <label className="reviews__label form__label" htmlFor="review">
-        Your review
-      </label>
-      <div className="reviews__rating-form form__rating">
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="5"
-          id="5-stars"
-          type="radio"
-        />
-        <label
-          htmlFor="5-stars"
-          className="reviews__rating-label form__rating-label"
-          title="perfect"
+    <React.Fragment>
+      <form
+        onSubmit={(evt) => handleSubmit(evt)}
+        className="reviews__form form"
+        action="#"
+        method="post"
+        id="userReviewForm"
+      >
+        <div
+          style={{
+            display: `none`,
+            color: `red`
+          }}
+          ref={error}
         >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
+          Sorry! Something went wrong! Please try again later :(
+        </div>
+        <label className="reviews__label form__label" htmlFor="review">
+          Your review
         </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="4"
-          id="4-stars"
-          type="radio"
-        />
-        <label
-          htmlFor="4-stars"
-          className="reviews__rating-label form__rating-label"
-          title="good"
-        >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="3"
-          id="3-stars"
-          type="radio"
-        />
-        <label
-          htmlFor="3-stars"
-          className="reviews__rating-label form__rating-label"
-          title="not bad"
-        >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="2"
-          id="2-stars"
-          type="radio"
-        />
-        <label
-          htmlFor="2-stars"
-          className="reviews__rating-label form__rating-label"
-          title="badly"
-        >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          value="1"
-          id="1-star"
-          type="radio"
-        />
-        <label
-          htmlFor="1-star"
-          className="reviews__rating-label form__rating-label"
-          title="terribly"
-        >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-      </div>
-      <textarea
-        className="reviews__textarea form__textarea"
-        id="comment"
-        name="comment"
-        placeholder="Tell how was your stay, what you like and what can be improved"
-        defaultValue={``}
-      ></textarea>
-      <div className="reviews__button-wrapper">
-        <p className="reviews__help">
-          To submit review please make sure to set{` `}
-          <span className="reviews__star">rating</span> and describe your stay
-          with at least <b className="reviews__text-amount">50 characters</b>.
-        </p>
-        <button
-          className="reviews__submit form__submit button"
-          type="submit"
-          disabled=""
-        >
-          Submit
-        </button>
-      </div>
-    </form>
+        <div className="reviews__rating-form form__rating">
+          {Array.from(new Array(MAX_RATING)).map((field, index) => (
+            <RatingItem
+              key={index}
+              count={MAX_RATING - index}
+              handleRatingChange={handleRatingChange}
+            />
+          ))}
+        </div>
+        <textarea
+          className="reviews__textarea form__textarea"
+          id="comment"
+          name="comment"
+          placeholder="Tell how was your stay, what you like and what can be improved"
+          maxLength={ReviewSettings.MAX_LENGTH}
+          value={userForm.comment}
+          onChange={handleTextareaChange}
+        ></textarea>
+        <div className="reviews__button-wrapper">
+          <p className="reviews__help">
+            To submit review please make sure to set{` `}
+            <span className="reviews__star">rating</span> and describe your stay
+            with at least <b className="reviews__text-amount">50 characters</b>.
+          </p>
+          <button
+            className="reviews__submit form__submit button"
+            type="submit"
+            disabled={
+              userForm.comment.length < ReviewSettings.MIN_LENGTH ||
+              userForm.rating === null ||
+              isLoading
+            }
+          >
+            {isLoading ? `...` : `Submit`}
+          </button>
+        </div>
+      </form>
+    </React.Fragment>
   );
 };
 
-CommentForm.propTypes = {
-  offer: offerType.isRequired,
-  submitCommentOnServer: PropTypes.func.isRequired
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    submitCommentOnServer: (id, review) => dispatch(addNewReviews(id, review))
-  };
-};
-
-const mapStateToProps = ({offer}) => ({
-  offer
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
+export default CommentForm;

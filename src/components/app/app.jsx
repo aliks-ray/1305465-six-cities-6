@@ -15,13 +15,17 @@ const App = () => {
         <Route path="/" exact>
           <MainPage />
         </Route>
-        <Route path="/login" exact>
-          <LoginPage />
-        </Route>
+        <PrivateRoute
+          exact
+          path="/login"
+          render={() => <LoginPage />}
+          page="/"
+        />
         <PrivateRoute
           exact
           path="/favorites"
           render={() => <FavoritesPage />}
+          page="/login"
         />
         <Route exact path="/offer/:id" component={OfferPage}></Route>
         <Route>

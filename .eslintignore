@@ -1,1 +1,8 @@
 webpack.config.js
+src/store/actions.test.js
+src/store/reducers/user-reducer.test.js
+src/store/reducers/user-reducer-test-mocks.js
+src/store/reducers/set-reducer.test.js
+src/store/reducers/set-reducer-test-mocks.js
+src/store/reducers/load-reducer.test.js
+src/store/reducers/load-reducer-test-mocks.js
