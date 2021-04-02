@@ -25,7 +25,6 @@ PrivateRoute.propTypes = {
   exact: PropTypes.bool.isRequired,
   path: PropTypes.string.isRequired,
   render: PropTypes.func.isRequired
-  // page: PropTypes.string.isRequired
 };
 
 export default PrivateRoute;
