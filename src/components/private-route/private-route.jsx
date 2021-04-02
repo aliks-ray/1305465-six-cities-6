@@ -4,7 +4,7 @@ import {Route, Redirect} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {AuthorizationStatus} from "../../consts/consts.js";
 
-const PrivateRoute = ({render, path, exact, page}) => {
+const PrivateRoute = ({render, path, exact}) => {
   const {authorizationStatus} = useSelector((state) => state.USER);
   return (
     <Route
@@ -14,7 +14,7 @@ const PrivateRoute = ({render, path, exact, page}) => {
         return authorizationStatus === AuthorizationStatus.AUTH ? (
           render(routeProps)
         ) : (
-          <Redirect to={page} />
+          <Redirect to={`/login`} />
         );
       }}
     />
@@ -24,8 +24,7 @@ const PrivateRoute = ({render, path, exact, page}) => {
 PrivateRoute.propTypes = {
   exact: PropTypes.bool.isRequired,
   path: PropTypes.string.isRequired,
-  render: PropTypes.func.isRequired,
-  page: PropTypes.string.isRequired
+  render: PropTypes.func.isRequired
 };
 
 export default PrivateRoute;
