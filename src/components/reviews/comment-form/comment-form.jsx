@@ -44,16 +44,21 @@ const CommentForm = () => {
     });
   };
 
-  const handleRatingChange = (evt) => {
-    const rating = evt.target.value;
-    setUserForm((state) => ({...state, rating}));
+  const handleFieldChange = (evt) => {
+    const {name, value} = evt.target;
+    setUserForm({...userForm, [name]: value});
   };
 
-  const handleTextareaChange = (evt) => {
-    evt.preventDefault();
-    const {value} = evt.target;
-    setUserForm({...userForm, comment: value});
-  };
+  // const handleRatingChange = (evt) => {
+  //   const rating = evt.target.value;
+  //   setUserForm((state) => ({...state, rating}));
+  // };
+  //
+  // const handleTextareaChange = (evt) => {
+  //   evt.preventDefault();
+  //   const {value} = evt.target;
+  //   setUserForm({...userForm, comment: value});
+  // };
 
   return (
     <React.Fragment>
@@ -80,8 +85,10 @@ const CommentForm = () => {
           {Array.from(new Array(MAX_RATING)).map((field, index) => (
             <RatingItem
               key={index}
+              value={index}
+              name="rating"
               count={MAX_RATING - index}
-              handleRatingChange={handleRatingChange}
+              handleFieldChange={handleFieldChange}
             />
           ))}
         </div>
@@ -92,7 +99,7 @@ const CommentForm = () => {
           placeholder="Tell how was your stay, what you like and what can be improved"
           maxLength={ReviewSettings.MAX_LENGTH}
           value={userForm.comment}
-          onChange={handleTextareaChange}
+          onChange={handleFieldChange}
         ></textarea>
         <div className="reviews__button-wrapper">
           <p className="reviews__help">

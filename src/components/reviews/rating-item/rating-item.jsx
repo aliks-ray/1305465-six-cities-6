@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const RatingItem = ({count, handleRatingChange}) => (
+const RatingItem = ({count, handleFieldChange}) => (
   <React.Fragment>
     <input
       className="form__rating-input visually-hidden"
@@ -9,7 +9,7 @@ const RatingItem = ({count, handleRatingChange}) => (
       defaultValue={count}
       id={`${count}-stars`}
       type="radio"
-      onChange={handleRatingChange}
+      onChange={handleFieldChange}
     />
     <label
       htmlFor={`${count}-stars`}
@@ -25,7 +25,7 @@ const RatingItem = ({count, handleRatingChange}) => (
 
 RatingItem.propTypes = {
   count: PropTypes.number.isRequired,
-  handleRatingChange: PropTypes.func.isRequired
+  handleFieldChange: PropTypes.func.isRequired
 };
 
 export default RatingItem;
