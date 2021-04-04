@@ -49,17 +49,6 @@ const CommentForm = () => {
     setUserForm({...userForm, [name]: value});
   };
 
-  // const handleRatingChange = (evt) => {
-  //   const rating = evt.target.value;
-  //   setUserForm((state) => ({...state, rating}));
-  // };
-  //
-  // const handleTextareaChange = (evt) => {
-  //   evt.preventDefault();
-  //   const {value} = evt.target;
-  //   setUserForm({...userForm, comment: value});
-  // };
-
   return (
     <React.Fragment>
       <form
